@@ -1,5 +1,6 @@
 package com.example.movieworld;
 
+import com.example.movieworld.movie.Movie;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

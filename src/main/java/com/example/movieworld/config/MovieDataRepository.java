@@ -1,6 +1,6 @@
 package com.example.movieworld.config;
 
-import com.example.movieworld.Movie;
+import com.example.movieworld.movie.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

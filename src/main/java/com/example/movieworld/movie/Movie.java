@@ -1,5 +1,7 @@
-package com.example.movieworld;
+package com.example.movieworld.movie;
 
+import com.example.movieworld.Genre;
+import com.example.movieworld.Like;
 import com.example.movieworld.config.MovieDataDto;
 import com.example.movieworld.config.MovieInputDto;
 import jakarta.persistence.*;
