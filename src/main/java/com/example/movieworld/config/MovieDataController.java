@@ -1,0 +1,19 @@
+package com.example.movieworld.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MovieDataController {
+
+    @Autowired
+    private MovieDataService movieDataService;
+
+    @GetMapping("/get/korean")
+    public void getKoreanMovieData(){
+        movieDataService.inputKoreanMovieData();
+    }
+
+
+}
