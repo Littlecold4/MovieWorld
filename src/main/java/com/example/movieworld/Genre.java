@@ -2,12 +2,16 @@ package com.example.movieworld;
 
 import com.example.movieworld.movie.Movie;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_GENRE")
+@Data
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,14 +21,13 @@ public class Genre {
     @Column(name = "GENRE_NAME")
     private String genreName;
 
-//    @ManyToMany(mappedBy = "GENRE_ID")
-//    @Column(name = "MOVIE")
-//    private List<Movie> movieList;
 
-    // mappedBy 값을 Movie 엔티티의 genre 필드 이름인 "genre"로 수정
-    // @Column(name = "MOVIE") 제거
-    // 양방향 @ManyToMany에서 mappedBy를 사용하는 쪽은 연관 관계의 주인이 아닙니다.
-    @ManyToMany(mappedBy = "genre") // Movie 엔티티의 genre 필드에 의해 매핑됨
-    private List<Movie> movieList = new ArrayList<>(); // 초기화 추가 (좋은 습관)
+    @OneToMany(mappedBy = "genre",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<MovieGenre> movies = new HashSet<>();
+
+    public void addMovieGenre(MovieGenre movieGenre){
+        this.movies.add(movieGenre);
+        movieGenre.setGenre(this);
+    }
 
 }

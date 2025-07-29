@@ -2,17 +2,22 @@ package com.example.movieworld.movie;
 
 import com.example.movieworld.Genre;
 import com.example.movieworld.Like;
+import com.example.movieworld.MovieGenre;
 import com.example.movieworld.config.MovieDataDto;
 import com.example.movieworld.config.MovieInputDto;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "TB_MOVIE")
 @NoArgsConstructor
+@Data
 public class Movie {
 
     @Id
@@ -35,24 +40,8 @@ public class Movie {
     @Column(name = "POSTER_PATH")
     private String posterPath;
 
-//    @ManyToMany(mappedBy = "MOVIE_ID")
-//    @Column(name = "GENRE")
-//    private List<Genre> genre;
-//
-//    @OneToMany(mappedBy = "MOVIE_ID", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @Column(name = "LIKE")
-//    private List<Like> likes = new ArrayList<>();
-
-    // Movie를 연관 관계의 주인으로 설정하고 @JoinTable 사용
-    // mappedBy 값을 Genre 엔티티의 movieList 필드 이름인 "movieList"로 수정 (현재는 이쪽이 주인이므로 mappedBy 없음)
-    // @Column(name = "GENRE") 제거
-    @ManyToMany
-    @JoinTable(
-            name = "TB_MOVIE_GENRE", // 중간 테이블 이름
-            joinColumns = @JoinColumn(name = "MOVIE_ID"), // Movie 엔티티의 FK
-            inverseJoinColumns = @JoinColumn(name = "GENRE_ID") // Genre 엔티티의 FK
-    )
-    private List<Genre> genre = new ArrayList<>(); // 초기화 추가
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MovieGenre> Genres = new HashSet<>();
 
     // mappedBy 값을 Like 엔티티의 movie 필드 이름인 "movie"로 수정
     // @Column(name = "LIKE") 제거
@@ -67,7 +56,10 @@ public class Movie {
         this.title = movieDataDto.getTitle();
     }
 
-
+    public void addMovieGenre(MovieGenre movieGenre){
+        this.getGenres().add(movieGenre);
+        movieGenre.setMovie(this);
+    }
 
 
 }
