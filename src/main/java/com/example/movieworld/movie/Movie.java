@@ -6,6 +6,8 @@ import com.example.movieworld.MovieGenre;
 import com.example.movieworld.config.MovieDataDto;
 import com.example.movieworld.config.MovieInputDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +20,8 @@ import java.util.Set;
 @Table(name = "TB_MOVIE")
 @NoArgsConstructor
 @Data
+@Builder
+@AllArgsConstructor
 public class Movie {
 
     @Id

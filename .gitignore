@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 
 application.yml
+application-test.yml
+
 
 ### STS ###
 .apt_generated
