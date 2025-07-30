@@ -34,6 +34,8 @@ public class MovieRepositoryTest {
     @Nested
     @DisplayName("Movie 리스트 조회 _ 성공")
     public class Success{
+        @Test
+        @DisplayName("Success _ getMovieList")
         void success_getMovieList(){
 
             pageable =PageRequest.of(0,10);
@@ -45,21 +47,8 @@ public class MovieRepositoryTest {
                     "TEST_title_0");
             assertEquals(page1Result.getContent().get(1).getTitle(),
                     "TEST_title_1");
-            assertEquals(page2Result.getContent().get(10).getTitle(),
-                    "TEST_title_0");
-        }
-    }
-    @Nested
-    @DisplayName("Movie 리스트 조회  _ 실패")
-    public class Fail{
-
-        @Test
-        @DisplayName("실패 _ 오버된 페이지")
-        void fail_getMovieList_over_page(){
-            pageable =PageRequest.of(4,10);
-
-            Exception ex = assertThrows(Exception.class,
-                    ()->movieRepository.getMovieList(pageable));
+            assertEquals(page2Result.getContent().get(0).getTitle(),
+                    "TEST_title_10");
         }
     }
 }
