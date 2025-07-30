@@ -1,0 +1,56 @@
+spring:
+    h2:
+        console:
+            enabled: true
+            path: /h2-console
+    datasource:
+        url: jdbc:h2:mem:testdb
+        driver-class-name: org.h2.Driver
+        username: sa
+        password:
+    jpa:
+        open-in-view: true
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+            use-new-id-generator-mappings: false
+            dialect: org.hibernate.dialect.H2Dialect
+            format_sql: true
+        show-sql: true
+        #    properties:
+        #      hibernate.format_sql: true
+        #      hibernate.dialect: org.hibernate.dialect.H2Dialect
+        defer-datasource-initialization: false
+    redis:
+        host: 127.0.0.1
+        port: 6379
+        password: jang
+
+
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 20MB
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
+    sql:
+        init:
+            mode: always
+            data-locations: classpath:data.sql
+            schema-locations: classpath:schema.sql
+            encoding: UTF-8
+
+
+logging:
+    level:
+        org.hibernate.SQL: debug
+        org.hibernate.type.descriptor.sql.BasicBinder: trace
+        com:
+            amazonaws:
+                util:
+                    EC2MetadataUtils: error
+
+    banner:
+        location: banner.txt
