@@ -1,4 +1,4 @@
-package com.example.movieworld.movie;
+package com.example.movieworld.movie.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;

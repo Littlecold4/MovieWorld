@@ -1,8 +1,7 @@
-package com.example.movieworld.movie.querydsl;
+package com.example.movieworld.movie.repository.querydsl;
 
 import com.example.movieworld.GenreResDto;
-import com.example.movieworld.movie.MovieResDto;
-import com.querydsl.core.QueryResults;
+import com.example.movieworld.movie.dto.MovieResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

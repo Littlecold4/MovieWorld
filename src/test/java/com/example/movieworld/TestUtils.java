@@ -1,7 +1,7 @@
 package com.example.movieworld;
 
-import com.example.movieworld.movie.Movie;
-import com.example.movieworld.movie.MovieRepository;
+import com.example.movieworld.movie.domain.Movie;
+import com.example.movieworld.movie.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

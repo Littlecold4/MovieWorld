@@ -1,4 +1,4 @@
-package com.example.movieworld.movie;
+package com.example.movieworld.movie.domain;
 
 import com.example.movieworld.Genre;
 import com.example.movieworld.Like;

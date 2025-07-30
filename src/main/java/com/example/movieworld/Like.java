@@ -1,6 +1,6 @@
 package com.example.movieworld;
 
-import com.example.movieworld.movie.Movie;
+import com.example.movieworld.movie.domain.Movie;
 import jakarta.persistence.*;
 
 @Entity

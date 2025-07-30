@@ -1,6 +1,6 @@
 package com.example.movieworld.config;
 
-import com.example.movieworld.movie.Movie;
+import com.example.movieworld.movie.domain.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

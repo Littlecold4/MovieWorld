@@ -1,7 +1,7 @@
 package com.example.movieworld;
 
-import com.example.movieworld.movie.MovieRepository;
-import com.example.movieworld.movie.MovieResDto;
+import com.example.movieworld.movie.repository.MovieRepository;
+import com.example.movieworld.movie.dto.MovieResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
