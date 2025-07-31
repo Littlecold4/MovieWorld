@@ -13,6 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,7 +33,15 @@ public class MovieRepositoryTest {
 
     @BeforeEach
     void setup(){
-        testUtils.addMockMovie(22);
+        testUtils.addMockGenre(5);
+
+        List<Long> genreIdList = new ArrayList<>(Arrays.asList(0L,4L));
+        testUtils.addMockMovie(6,genreIdList);
+
+        genreIdList = new ArrayList<>(Arrays.asList(1L,3L));
+        testUtils.addMockMovie(15,genreIdList);
+
+
     }
     @Nested
     @DisplayName("Movie 리스트 조회 _ 성공")
@@ -43,12 +55,13 @@ public class MovieRepositoryTest {
             pageable =PageRequest.of(1,10);
             Page<MovieResDto> page2Result = movieRepository.getMovieList(pageable);
 
-            assertEquals(page1Result.getContent().get(0).getTitle(),
-                    "TEST_title_0");
-            assertEquals(page1Result.getContent().get(1).getTitle(),
-                    "TEST_title_1");
-            assertEquals(page2Result.getContent().get(0).getTitle(),
-                    "TEST_title_10");
+            assertEquals(page1Result.getContent().get(0).getTitle(), "TEST_title_0");
+            assertEquals(page1Result.getContent().get(0).getGenres().get(0).getGenreName(), "TEST_genre_0");
+            assertEquals(page1Result.getContent().get(0).getGenres().get(1).getGenreName(), "TEST_genre_4");
+            assertEquals(page1Result.getContent().get(1).getTitle(), "TEST_title_1");
+
+            assertEquals(page2Result.getContent().get(0).getTitle(), "TEST_title_4");
+            assertEquals(page2Result.getContent().get(0).getGenres().get(0).getGenreName(), "TEST_genre_1");
         }
     }
 }

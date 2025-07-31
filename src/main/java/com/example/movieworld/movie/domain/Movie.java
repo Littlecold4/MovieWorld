@@ -6,10 +6,7 @@ import com.example.movieworld.MovieGenre;
 import com.example.movieworld.config.MovieDataDto;
 import com.example.movieworld.config.MovieInputDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "TB_MOVIE")
 @NoArgsConstructor
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 public class Movie {
@@ -45,12 +42,12 @@ public class Movie {
     private String posterPath;
 
     @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MovieGenre> Genres = new HashSet<>();
+    private final Set<MovieGenre> Genres = new HashSet<>();
 
     // mappedBy 값을 Like 엔티티의 movie 필드 이름인 "movie"로 수정
     // @Column(name = "LIKE") 제거
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private final List<Like> likes = new ArrayList<>();
 
     public Movie(MovieDataDto movieDataDto){
         this.adult = movieDataDto.isAdult();

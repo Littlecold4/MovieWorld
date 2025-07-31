@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static com.example.movieworld.movie.QMovie.movie;
+import static com.example.movieworld.movie.domain.QMovie.movie;
 import static com.example.movieworld.QMovieGenre.movieGenre;
 
 

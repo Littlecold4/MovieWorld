@@ -1,17 +1,20 @@
 package com.example.movieworld;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "TB_GENRE")
-@Data
+@Getter
+@NoArgsConstructor
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GENRE_ID")
     private Long genreId;
 
@@ -20,11 +23,15 @@ public class Genre {
 
 
     @OneToMany(mappedBy = "genre",cascade = CascadeType.ALL,orphanRemoval = true)
-    private Set<MovieGenre> movies = new HashSet<>();
+    private final Set<MovieGenre> movies = new HashSet<>();
 
     public void addMovieGenre(MovieGenre movieGenre){
         this.movies.add(movieGenre);
         movieGenre.setGenre(this);
+    }
+    public Genre(Long genreId,String genreName){
+        this.genreId = genreId;
+        this.genreName = genreName;
     }
 
 }

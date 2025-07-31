@@ -3,10 +3,11 @@ package com.example.movieworld;
 import com.example.movieworld.movie.domain.Movie;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 @Table(name = "TB_MOVIEGENRE")
 public class MovieGenre {
@@ -27,4 +28,11 @@ public class MovieGenre {
         this.genre = genre;
     }
 
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public void setGenre(Genre genre){
+        this.genre=genre;
+    }
 }
