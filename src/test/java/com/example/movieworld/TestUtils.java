@@ -16,7 +16,7 @@ public class TestUtils {
     @Autowired
     private GenreRepository genreRepository;
 
-    public void addMockMovie(int num,List<Long> genreIdList){
+    public List<Movie> addMockMovie(int num,List<Long> genreIdList){
         List<Movie> mockMovieList = new ArrayList<>();
         for(int i=0; i<num;i++){
             Movie movie = new Movie().builder()
@@ -36,16 +36,16 @@ public class TestUtils {
 
             mockMovieList.add(movie);
         }
-        movieRepository.saveAll(mockMovieList);
+        return movieRepository.saveAll(mockMovieList);
     }
 
-    public void addMockGenre(int num){
+    public List<Genre> addMockGenre(int num){
         List<Genre> mockGenreList = new ArrayList<>();
         for(int i=0; i<num; i++){
             Genre genre =new Genre((long) i,"TEST_genre_"+i);
 
             mockGenreList.add(genre);
         }
-        genreRepository.saveAll(mockGenreList);
+        return genreRepository.saveAll(mockGenreList);
     }
 }

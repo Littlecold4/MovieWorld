@@ -1,39 +1,75 @@
 package com.example.movieworld;
 
 import com.example.movieworld.movie.domain.Movie;
+import com.example.movieworld.movie.dto.MovieResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import com.example.movieworld.movie.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 public class getMovieListService {
+
     @Mock
     private MovieRepository movieRepository;
 
     @InjectMocks
     private MovieService movieService;
 
-    private Movie testMovie1;
-    private Movie testMovie2;
+    private final Pageable pageable = PageRequest.of(0,10);
+    Page<MovieResDto> expectedResult;
 
     @BeforeEach
     void setup(){
-        testMovie1 = mock(Movie.class); // Movie 클래스가 복잡할 경우 Mocking하여 사용합니다.
-        when(testMovie1.getMovieId()).thenReturn(1L);
-        when(testMovie1.getTitle()).thenReturn("테스트 영화 1");
+        MovieResDto testMovie1 = new MovieResDto().builder()
+                .movieId(0L)
+                .title("TEST_title_0")
+                .build();
 
-        testMovie2 = mock(Movie.class);
-        when(testMovie2.getMovieId()).thenReturn(2L);
-        when(testMovie2.getTitle()).thenReturn("테스트 영화 2");
+        MovieResDto testMovie2 = new MovieResDto().builder()
+                .movieId(1L)
+                .title("TEST_title_1")
+                .build();
+
+        expectedResult =  new PageImpl<>(Arrays.asList(testMovie1,testMovie2),pageable,2);
+
+        when(movieRepository.getMovieList(pageable)).thenReturn(expectedResult);
+    }
+
+    @Nested
+    @DisplayName("Service _ Movie 리스트 조회 _ 성공")
+    public class success{
+        @Test
+        @DisplayName("Success _ getMovieList")
+        void success_getMovieList(){
+            Page<MovieResDto> actualResult = movieService.getMovieList(pageable);
+
+            assertNotNull(actualResult);
+            assertEquals(expectedResult,actualResult);
+            verify(movieRepository,times(1)).getMovieList(pageable);
+        }
     }
 }

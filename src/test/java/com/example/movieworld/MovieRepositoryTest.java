@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @DataJpaTest
 @DisplayName("MovieRepository 테스트")
@@ -44,7 +44,7 @@ public class MovieRepositoryTest {
 
     }
     @Nested
-    @DisplayName("Movie 리스트 조회 _ 성공")
+    @DisplayName("Repository _ Movie 리스트 조회 _ 성공")
     public class Success{
         @Test
         @DisplayName("Success _ getMovieList")

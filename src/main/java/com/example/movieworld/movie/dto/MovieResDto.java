@@ -1,15 +1,14 @@
 package com.example.movieworld.movie.dto;
 
 import com.example.movieworld.GenreResDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Builder
 public class MovieResDto {
     private Long movieId;
     private String title;
@@ -28,5 +27,14 @@ public class MovieResDto {
         this.releaseDate = releaseDate;
         this.posterPath = posterPath;
         this.likeCnt = likeCnt;
+    }
+
+    public void setGenres(List<GenreResDto> genres) {
+        this.genres = genres;
+    }
+
+    public MovieResDto(Long movieId, String title) {
+        this.movieId = movieId;
+        this.title = title;
     }
 }
