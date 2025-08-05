@@ -1,4 +1,4 @@
-package com.example.movieworld.config;
+package com.example.movieworld.moviedata.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
