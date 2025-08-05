@@ -29,7 +29,7 @@ public class MovieRepositoryTest {
     @Autowired
     private MovieRepository movieRepository;
 
-    Pageable pageable;
+    int pageNum;
 
     @BeforeEach
     void setup(){
@@ -50,10 +50,10 @@ public class MovieRepositoryTest {
         @DisplayName("Success _ getMovieList")
         void success_getMovieList(){
 
-            pageable =PageRequest.of(0,10);
-            Page<MovieResDto> page1Result = movieRepository.getMovieList(pageable);
-            pageable =PageRequest.of(1,10);
-            Page<MovieResDto> page2Result = movieRepository.getMovieList(pageable);
+            pageNum = 0;
+            Page<MovieResDto> page1Result = movieRepository.getMovieList(pageNum);
+            pageNum=1;
+            Page<MovieResDto> page2Result = movieRepository.getMovieList(pageNum);
 
             assertEquals(page1Result.getContent().get(0).getTitle(), "TEST_title_0");
             assertEquals(page1Result.getContent().get(0).getGenres().get(0).getGenreName(), "TEST_genre_0");

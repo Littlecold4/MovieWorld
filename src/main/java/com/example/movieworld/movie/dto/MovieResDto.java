@@ -1,6 +1,6 @@
 package com.example.movieworld.movie.dto;
 
-import com.example.movieworld.GenreResDto;
+import com.example.movieworld.genre.GenreResDto;
 import lombok.*;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package com.example.movieworld;
+package com.example.movieworld.genre;
 
+import com.example.movieworld.MovieGenre;
 import jakarta.persistence.*;
 import lombok.*;
 

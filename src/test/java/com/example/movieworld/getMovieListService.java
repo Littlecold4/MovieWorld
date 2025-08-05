@@ -1,6 +1,5 @@
 package com.example.movieworld;
 
-import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.movie.dto.MovieResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import com.example.movieworld.movie.service.MovieService;
@@ -12,20 +11,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 //@SpringBootTest
@@ -56,7 +50,9 @@ public class getMovieListService {
 
         expectedResult =  new PageImpl<>(Arrays.asList(testMovie1,testMovie2),pageable,2);
 
-        when(movieRepository.getMovieList(pageable)).thenReturn(expectedResult);
+        int pageNum = 0;
+
+        when(movieRepository.getMovieList(0)).thenReturn(expectedResult);
     }
 
     @Nested
@@ -65,11 +61,11 @@ public class getMovieListService {
         @Test
         @DisplayName("Success _ getMovieList")
         void success_getMovieList(){
-            Page<MovieResDto> actualResult = movieService.getMovieList(pageable);
+            Page<MovieResDto> actualResult = movieService.getMovieList(0);
 
             assertNotNull(actualResult);
             assertEquals(expectedResult,actualResult);
-            verify(movieRepository,times(1)).getMovieList(pageable);
+            verify(movieRepository,times(1)).getMovieList(0);
         }
     }
 }

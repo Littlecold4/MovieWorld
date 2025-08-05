@@ -1,12 +1,13 @@
 package com.example.movieworld.movie.repository.querydsl;
 
-import com.example.movieworld.GenreResDto;
+import com.example.movieworld.genre.GenreResDto;
 import com.example.movieworld.movie.dto.MovieResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
     }
 
     @Override
-    public Page<MovieResDto> getMovieList(Pageable pageable) {
+    public Page<MovieResDto> getMovieList(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum,10);
         List<MovieResDto> results = queryFactory
                 .select(Projections.constructor(
                         MovieResDto.class,
