@@ -1,10 +1,8 @@
 package com.example.movieworld.movie.domain;
 
-import com.example.movieworld.Genre;
 import com.example.movieworld.Like;
 import com.example.movieworld.MovieGenre;
-import com.example.movieworld.config.MovieDataDto;
-import com.example.movieworld.config.MovieInputDto;
+import com.example.movieworld.moviedata.dto.MovieDataDto;
 import jakarta.persistence.*;
 import lombok.*;
 

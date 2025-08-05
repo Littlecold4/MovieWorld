@@ -1,10 +1,7 @@
 package com.example.movieworld;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +26,7 @@ public class Genre {
         this.movies.add(movieGenre);
         movieGenre.setGenre(this);
     }
+    @Builder
     public Genre(Long genreId,String genreName){
         this.genreId = genreId;
         this.genreName = genreName;

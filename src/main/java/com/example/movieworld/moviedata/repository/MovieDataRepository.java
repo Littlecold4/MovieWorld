@@ -1,4 +1,4 @@
-package com.example.movieworld.config;
+package com.example.movieworld.moviedata.repository;
 
 import com.example.movieworld.movie.domain.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
