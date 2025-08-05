@@ -2,6 +2,7 @@ package com.example.movieworld.moviedata.service;
 
 import com.example.movieworld.Genre;
 import com.example.movieworld.GenreRepository;
+import com.example.movieworld.MovieGenre;
 import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.moviedata.dto.GenreInputDto;
 import com.example.movieworld.moviedata.dto.MovieDataDto;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieDataService {
@@ -37,18 +39,25 @@ public class MovieDataService {
         String url ="https://api.themoviedb.org/3/discover/movie?api_key=3d41bf44f8eff28ccae061b43807131d&language=ko&page=";
 
         ResponseEntity<MovieInputDto> results;
-
+        List<Movie> movieList = new ArrayList<>();
         for(int i=1; i<=100; i++){
             results = restTemplate.getForEntity(url+i, MovieInputDto.class,entity);
             MovieInputDto result = results.getBody();
             List<MovieDataDto> movieDataDtoResult = result.getResults();
 
             for(int j = 0; j< movieDataDtoResult.size(); j++){
-                movieDataRepository.save(
-                        new Movie(movieDataDtoResult.get(j))
-                );
+                Movie movie = new Movie(movieDataDtoResult.get(j));
+                for(int k = 0 ; k<movieDataDtoResult.get(j).getGenre_ids().size(); k++){
+                    Optional<Genre> genre = genreRepository.findById((long)movieDataDtoResult.get(j).getGenre_ids().get(k));
+                    MovieGenre movieGenre =new MovieGenre(movie,genre.get());
+
+                    movie.addMovieGenre(movieGenre);
+                    genre.get().addMovieGenre(movieGenre);
+                }
+                movieList.add(movie);
             }
         }
+        movieDataRepository.saveAll(movieList);
     }
 
     public void inputGenreData(){
