@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 //@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 //@ActiveProfiles("test")
-public class getMovieListService {
+public class getMovieListServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
