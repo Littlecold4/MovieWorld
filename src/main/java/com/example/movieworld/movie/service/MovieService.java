@@ -1,5 +1,7 @@
 package com.example.movieworld.movie.service;
 
+import com.example.movieworld.common.CustomException;
+import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.movie.dto.MovieResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
     public Page<MovieResDto> getMovieList(int pageNum){
+        if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
         return movieRepository.getMovieList(pageNum);
     }
 }

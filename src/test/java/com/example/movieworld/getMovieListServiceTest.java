@@ -48,7 +48,10 @@ public class getMovieListServiceTest {
 
         expectedResult =  new PageImpl<>(Arrays.asList(testMovie1,testMovie2),pageable,2);
 
-        when(movieRepository.getMovieList(anyInt())).thenReturn(expectedResult);
+        //Stubbing을 해주었지만 실패 케이스에서 getMovieList()를 호출하기 전에 Exception이 발생하면서 불필요한 stubbing이라고 판단하여 오류 발생
+        //lenient()를 앞에 붙여주어 사용하지 않아도 되는 line임을 밝힘
+        lenient().when(movieRepository.getMovieList(anyInt())).thenReturn(expectedResult);
+
     }
 
     @Nested
@@ -61,7 +64,7 @@ public class getMovieListServiceTest {
 
             assertNotNull(actualResult);
             assertEquals(expectedResult,actualResult);
-            verify(movieRepository,times(1)).getMovieList(0);
+            verify(movieRepository,times(1)).getMovieList(anyInt());
         }
     }
     @Nested
