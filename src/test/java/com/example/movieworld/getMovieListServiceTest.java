@@ -15,7 +15,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -31,27 +33,11 @@ public class getMovieListServiceTest {
     @InjectMocks
     private MovieService movieService;
 
-    private final Pageable pageable = PageRequest.of(0,10);
+    private Pageable pageable;
     Page<MovieResDto> expectedResult;
 
     @BeforeEach
     void setup(){
-        MovieResDto testMovie1 = new MovieResDto().builder()
-                .movieId(0L)
-                .title("TEST_title_0")
-                .build();
-
-        MovieResDto testMovie2 = new MovieResDto().builder()
-                .movieId(1L)
-                .title("TEST_title_1")
-                .build();
-
-        expectedResult =  new PageImpl<>(Arrays.asList(testMovie1,testMovie2),pageable,2);
-
-        //Stubbing을 해주었지만 실패 케이스에서 getMovieList()를 호출하기 전에 Exception이 발생하면서 불필요한 stubbing이라고 판단하여 오류 발생
-        //lenient()를 앞에 붙여주어 사용하지 않아도 되는 line임을 밝힘
-        lenient().when(movieRepository.getMovieList(anyInt())).thenReturn(expectedResult);
-
     }
 
     @Nested
@@ -60,11 +46,48 @@ public class getMovieListServiceTest {
         @Test
         @DisplayName("성공")
         void success_getMovieList(){
+            //given : 총 25개의 Movie가 있다고 가정
+            long totalMovies = 25L;
+            pageable = PageRequest.of(0,10);
+            expectedResult = new PageImpl<>(createMovieResDto(10),pageable,totalMovies);
+            when(movieRepository.getMovieList(0)).thenReturn(expectedResult);
+
+            //when
             Page<MovieResDto> actualResult = movieService.getMovieList(0);
 
             assertNotNull(actualResult);
-            assertEquals(expectedResult,actualResult);
-            verify(movieRepository,times(1)).getMovieList(anyInt());
+            assertEquals(expectedResult.getContent(),actualResult.getContent());
+            assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
+
+            verify(movieRepository,times(1)).getMovieList(0);
+        }
+
+        @Test
+        @DisplayName("성공 _ 너무 큰 페이지 넘버가 들어온 경우, 마지막 페이지 반환")
+        void success_Exceed_Page_Number(){
+            int exceedPageNum = Integer.MAX_VALUE;
+            //given : 총 25개의 Movie가 있다고 가정
+            long totalMovies = 25;
+            int lastPageNum = 25 / 10 ;// 총 페이지의 수
+            pageable = PageRequest.of(lastPageNum,10);
+
+            expectedResult = new PageImpl<>(createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
+            when(movieRepository.getMovieList(exceedPageNum)).thenReturn(expectedResult);
+
+            //when
+            Page<MovieResDto> actualResult = movieService.getMovieList(exceedPageNum);
+
+            //then
+            assertNotNull(actualResult);
+            assertEquals(expectedResult.getContent(),actualResult.getContent());
+            assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
+
+            verify(movieRepository,times(1)).getMovieList(lastPageNum);
+
+
+
+
+
         }
     }
     @Nested
@@ -79,6 +102,21 @@ public class getMovieListServiceTest {
                     ()-> movieService.getMovieList(invalidPageNum));
             assertEquals(ErrorCode.INVALID_PAGE_NUMBER.getMessage(),
                     ex.getMessage());
+
+            verify(movieRepository, never()).getMovieList(anyInt());
         }
+    }
+
+    private List<MovieResDto> createMovieResDto(int num){
+        List<MovieResDto> movieResDtoList = new ArrayList<>();
+        for(int i =0 ;i<num; i++){
+            MovieResDto testMovie = new MovieResDto().builder()
+                    .movieId((long)num)
+                    .title("TEST_title_"+num)
+                    .build();
+
+            movieResDtoList.add(testMovie);
+        }
+        return movieResDtoList;
     }
 }
