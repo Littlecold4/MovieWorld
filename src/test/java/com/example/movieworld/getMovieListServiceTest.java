@@ -72,7 +72,8 @@ public class getMovieListServiceTest {
             pageable = PageRequest.of(lastPageNum,10);
 
             expectedResult = new PageImpl<>(createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
-            when(movieRepository.getMovieList(exceedPageNum)).thenReturn(expectedResult);
+            when(movieRepository.count()).thenReturn(totalMovies);
+            when(movieRepository.getMovieList(lastPageNum)).thenReturn(expectedResult);
 
             //when
             Page<MovieResDto> actualResult = movieService.getMovieList(exceedPageNum);
@@ -83,6 +84,7 @@ public class getMovieListServiceTest {
             assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
 
             verify(movieRepository,times(1)).getMovieList(lastPageNum);
+            verify(movieRepository,times(1)).count();
 
 
 

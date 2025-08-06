@@ -19,6 +19,8 @@ public class MovieService {
     private MovieRepository movieRepository;
     public Page<MovieResDto> getMovieList(int pageNum){
         if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
+        long totalMovies = movieRepository.count();
+        if(pageNum > totalMovies/10) pageNum = (int) totalMovies/10;
         return movieRepository.getMovieList(pageNum);
     }
 }
