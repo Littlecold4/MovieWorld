@@ -1,7 +1,7 @@
 package com.example.movieworld.movie.repository.querydsl;
 
 import com.example.movieworld.genre.GenreResDto;
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -24,11 +24,11 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
     }
 
     @Override
-    public Page<MovieResDto> getMovieList(int pageNum) {
+    public Page<MovieListResDto> getMovieList(int pageNum) {
         Pageable pageable = PageRequest.of(pageNum,10);
-        List<MovieResDto> results = queryFactory
+        List<MovieListResDto> results = queryFactory
                 .select(Projections.constructor(
-                        MovieResDto.class,
+                        MovieListResDto.class,
                         movie.movieId,
                         movie.title,
                         movie.overview,

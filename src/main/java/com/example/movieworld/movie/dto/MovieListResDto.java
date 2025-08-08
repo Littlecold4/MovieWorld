@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class MovieResDto {
+public class MovieListResDto {
     private Long movieId;
     private String title;
     private String overview;
@@ -19,7 +19,7 @@ public class MovieResDto {
     private List<GenreResDto> genres;
     private int likeCnt;
 
-    public MovieResDto(Long movieId, String title, String overview, boolean adult, String releaseDate, String posterPath,int likeCnt) {
+    public MovieListResDto(Long movieId, String title, String overview, boolean adult, String releaseDate, String posterPath, int likeCnt) {
         this.movieId = movieId;
         this.title = title;
         this.overview = overview;
@@ -33,7 +33,7 @@ public class MovieResDto {
         this.genres = genres;
     }
 
-    public MovieResDto(Long movieId, String title) {
+    public MovieListResDto(Long movieId, String title) {
         this.movieId = movieId;
         this.title = title;
     }

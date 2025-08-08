@@ -1,7 +1,7 @@
-package com.example.movieworld;
+package com.example.movieworld.movie.repository;
 
-import com.example.movieworld.movie.repository.MovieRepository;
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.TestUtils;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,20 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest
 @DisplayName("MovieRepository 테스트")
 @Import(TestUtils.class)
-public class MovieRepositoryTest {
+public class getMovieListRepository {
     @Autowired
     private TestUtils testUtils;
     @Autowired
@@ -51,9 +49,9 @@ public class MovieRepositoryTest {
         void success_getMovieList(){
 
             pageNum = 0;
-            Page<MovieResDto> page1Result = movieRepository.getMovieList(pageNum);
+            Page<MovieListResDto> page1Result = movieRepository.getMovieList(pageNum);
             pageNum=1;
-            Page<MovieResDto> page2Result = movieRepository.getMovieList(pageNum);
+            Page<MovieListResDto> page2Result = movieRepository.getMovieList(pageNum);
 
             assertEquals(page1Result.getContent().get(0).getTitle(), "TEST_title_0");
             assertEquals(page1Result.getContent().get(0).getGenres().get(0).getGenreName(), "TEST_genre_0");

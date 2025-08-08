@@ -1,11 +1,13 @@
-package com.example.movieworld;
+package com.example.movieworld.movie.service;
 
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
-import com.example.movieworld.movie.service.MovieService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,7 +35,7 @@ public class getMovieListServiceTest {
     private MovieService movieService;
 
     private Pageable pageable;
-    Page<MovieResDto> expectedResult;
+    Page<MovieListResDto> expectedResult;
 
     @BeforeEach
     void setup(){
@@ -53,7 +54,7 @@ public class getMovieListServiceTest {
             when(movieRepository.getMovieList(0)).thenReturn(expectedResult);
 
             //when
-            Page<MovieResDto> actualResult = movieService.getMovieList(0);
+            Page<MovieListResDto> actualResult = movieService.getMovieList(0);
 
             assertNotNull(actualResult);
             assertEquals(expectedResult.getContent(),actualResult.getContent());
@@ -76,7 +77,7 @@ public class getMovieListServiceTest {
             when(movieRepository.getMovieList(lastPageNum)).thenReturn(expectedResult);
 
             //when
-            Page<MovieResDto> actualResult = movieService.getMovieList(exceedPageNum);
+            Page<MovieListResDto> actualResult = movieService.getMovieList(exceedPageNum);
 
             //then
             assertNotNull(actualResult);
@@ -109,16 +110,16 @@ public class getMovieListServiceTest {
         }
     }
 
-    private List<MovieResDto> createMovieResDto(int num){
-        List<MovieResDto> movieResDtoList = new ArrayList<>();
+    private List<MovieListResDto> createMovieResDto(int num){
+        List<MovieListResDto> movieListResDtoList = new ArrayList<>();
         for(int i =0 ;i<num; i++){
-            MovieResDto testMovie = new MovieResDto().builder()
+            MovieListResDto testMovie = new MovieListResDto().builder()
                     .movieId((long)num)
                     .title("TEST_title_"+num)
                     .build();
 
-            movieResDtoList.add(testMovie);
+            movieListResDtoList.add(testMovie);
         }
-        return movieResDtoList;
+        return movieListResDtoList;
     }
 }

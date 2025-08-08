@@ -1,6 +1,6 @@
 package com.example.movieworld.movie.controller;
 
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("")
-    public ResponseEntity<Page<MovieResDto>> getMovieList(@RequestParam int pageNum) {
+    public ResponseEntity<Page<MovieListResDto>> getMovieList(@RequestParam int pageNum) {
         return new ResponseEntity<>(movieService.getMovieList(pageNum),HttpStatus.OK);
     }
 

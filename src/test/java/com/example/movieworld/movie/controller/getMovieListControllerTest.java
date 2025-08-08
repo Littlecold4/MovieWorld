@@ -1,12 +1,10 @@
-package com.example.movieworld;
+package com.example.movieworld.movie.controller;
 
-import com.example.movieworld.movie.controller.MovieController;
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,7 +25,7 @@ public class getMovieListControllerTest {
     @Mock
     private MovieService movieService;
 
-    Page<MovieResDto> expectedResult;
+    Page<MovieListResDto> expectedResult;
 
     @BeforeEach
     void setup(){
