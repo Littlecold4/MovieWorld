@@ -2,6 +2,7 @@ package com.example.movieworld.movie.service;
 
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
+import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,9 @@ public class MovieService {
         long totalMovies = movieRepository.count();
         if(pageNum > totalMovies/10) pageNum = (int) totalMovies/10;
         return movieRepository.getMovieList(pageNum);
+    }
+
+    public MovieDetailResDto getMovieDetail(Long movieId, Long userId){
+        return null;
     }
 }
