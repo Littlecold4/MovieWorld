@@ -1,5 +1,6 @@
 package com.example.movieworld.movie.service;
 
+import com.example.movieworld.UserRepository;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
@@ -17,6 +18,8 @@ public class MovieService {
 
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private UserRepository userRepository;
     public Page<MovieListResDto> getMovieList(int pageNum){
         if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
         long totalMovies = movieRepository.count();
@@ -25,6 +28,8 @@ public class MovieService {
     }
 
     public MovieDetailResDto getMovieDetail(Long movieId, Long userId){
-        return null;
+        if(!movieRepository.existsById(movieId)) throw new CustomException(ErrorCode.MOVIE_NOT_EXIST);
+        if(!userRepository.existsById(userId)) throw new CustomException(ErrorCode.USER_NOT_EXIST);
+        return movieRepository.getMovieDetail(movieId,userId);
     }
 }
