@@ -1,6 +1,7 @@
 package com.example.movieworld.movie.repository.querydsl;
 
 import com.example.movieworld.genre.GenreResDto;
+import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -57,5 +58,10 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
 
 
         return new PageImpl<>(results,pageable,results.size());
+    }
+
+    @Override
+    public MovieDetailResDto getMovieDetail(Long movieId) {
+        return null;
     }
 }
