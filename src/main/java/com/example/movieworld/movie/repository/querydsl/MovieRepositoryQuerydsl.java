@@ -7,5 +7,5 @@ import org.springframework.data.domain.Page;
 public interface MovieRepositoryQuerydsl {
     Page<MovieListResDto> getMovieList(int pageNum);
 
-    MovieDetailResDto getMovieDetail(Long movieId);
+    MovieDetailResDto getMovieDetail(Long movieId,Long userId);
 }

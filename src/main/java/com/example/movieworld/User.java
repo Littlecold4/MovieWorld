@@ -2,6 +2,7 @@ package com.example.movieworld;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "TB_USER")
 @NoArgsConstructor
+@Getter
 public class User {
 
     @Id

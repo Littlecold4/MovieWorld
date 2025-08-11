@@ -4,6 +4,7 @@ import com.example.movieworld.genre.GenreResDto;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,9 @@ import java.util.List;
 
 import static com.example.movieworld.movie.domain.QMovie.movie;
 import static com.example.movieworld.QMovieGenre.movieGenre;
+import static com.example.movieworld.QLike.like;
+import static com.querydsl.jpa.JPAExpressions.*;
+
 
 
 public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
@@ -61,7 +65,42 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
     }
 
     @Override
-    public MovieDetailResDto getMovieDetail(Long movieId) {
-        return null;
+    public MovieDetailResDto getMovieDetail(Long movieId,Long userId) {
+        MovieDetailResDto movieDetailResDto =queryFactory.
+                select(Projections.constructor(
+                        MovieDetailResDto.class,
+                        movie.movieId,
+                        movie.title,
+                        movie.overview,
+                        movie.adult,
+                        movie.releaseDate,
+                        movie.posterPath,
+                        movie.likes.size(),
+                        Expressions.as(
+                               select(like)
+                                       .from(like)
+                                       .where(like.movie.movieId.eq(movieId)
+                                               .and(like.user.id.eq(userId)))
+                                       .exists(),
+                                "likeChk"
+                        )
+                ))
+                .from(movie)
+                .where(movie.movieId.eq(movieId))
+                .fetchOne();
+
+        List<GenreResDto> genres = queryFactory
+                .select(Projections.constructor(
+                        GenreResDto.class,
+                        movieGenre.genre.genreId,
+                        movieGenre.genre.genreName
+                )).from(movieGenre)
+                .where(movieGenre.movie.movieId.eq(movieId))
+                .from(movieGenre)
+                .fetch();
+
+        movieDetailResDto.setGenres(genres);
+
+        return movieDetailResDto;
     }
 }

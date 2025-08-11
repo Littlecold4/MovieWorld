@@ -2,6 +2,8 @@ package com.example.movieworld.movie.repository;
 
 import com.example.movieworld.TestUtils;
 import com.example.movieworld.User;
+import com.example.movieworld.UserRepository;
+import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +28,8 @@ public class getMovieDetailRepository {
     private MovieRepository movieRepository;
     @Autowired
     private TestUtils testUtils;
+    @Autowired
+    private UserRepository userRepository;
     private User user;
     private List<Long> genreIdList;
 
@@ -41,6 +45,8 @@ public class getMovieDetailRepository {
                 .userName("TEST_userName_0")
                 .password("TEST_password_0")
                 .build();
+
+        user = userRepository.save(user);
     }
 
     @Nested
@@ -50,11 +56,12 @@ public class getMovieDetailRepository {
         @DisplayName("Success _ getMovieDetail")
         void success_getMovieDetail(){
             MovieDetailResDto movieDetailResDto =
-                    movieRepository.getMovieDetail(0L);
+                    movieRepository.getMovieDetail(1L,user.getId());
 
             assertEquals("TEST_title_0",movieDetailResDto.getTitle());
             assertEquals(false,movieDetailResDto.isLikeChk());
-            assertEquals(genreIdList,movieDetailResDto.getGenres());
+            assertEquals(genreIdList.get(0),movieDetailResDto.getGenres().get(0).getGenreId());
+            assertEquals(genreIdList.get(1),movieDetailResDto.getGenres().get(1).getGenreId());
         }
     }
 }

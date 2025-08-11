@@ -20,4 +20,19 @@ public class MovieDetailResDto {
     private List<GenreResDto> genres;
     private int likeCnt;
     private boolean likeChk;
+
+    public MovieDetailResDto(Long movieId, String title, String overview, boolean adult, String releaseDate, String posterPath, int likeCnt, boolean likeChk) {
+        this.movieId = movieId;
+        this.title = title;
+        this.overview = overview;
+        this.adult = adult;
+        this.releaseDate = releaseDate;
+        this.posterPath = posterPath;
+        this.likeCnt = likeCnt;
+        this.likeChk = likeChk;
+    }
+    public void setGenres(List<GenreResDto> genres) {
+        this.genres = genres;
+    }
+
 }
