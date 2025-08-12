@@ -3,6 +3,7 @@ package com.example.movieworld;
 import com.example.movieworld.genre.Genre;
 import com.example.movieworld.genre.GenreRepository;
 import com.example.movieworld.movie.domain.Movie;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,5 +50,18 @@ public class TestUtils {
             mockGenreList.add(genre);
         }
         return genreRepository.saveAll(mockGenreList);
+    }
+
+    public List<MovieListResDto> createMovieResDto(int num){
+        List<MovieListResDto> movieListResDtoList = new ArrayList<>();
+        for(int i =0 ;i<num; i++){
+            MovieListResDto testMovie = new MovieListResDto().builder()
+                    .movieId((long)num)
+                    .title("TEST_title_"+num)
+                    .build();
+
+            movieListResDtoList.add(testMovie);
+        }
+        return movieListResDtoList;
     }
 }

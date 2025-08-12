@@ -24,48 +24,46 @@ import org.springframework.data.domain.Pageable;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-//@ActiveProfiles("test")
-public class getMovieListServiceTest {
-
+public class getMovieListByGenreServiceTest {
     @Mock
     private MovieRepository movieRepository;
-
     @InjectMocks
     private MovieService movieService;
     @Autowired
     private TestUtils testUtils;
 
-    private Pageable pageable;
+    private Pageable pageable ;
+
     Page<MovieListResDto> expectedResult;
 
     @BeforeEach
     void setup(){
+        testUtils.addMockGenre(10);
     }
 
     @Nested
-    @DisplayName("Service _ Movie 리스트 조회 _ 성공")
-
+    @DisplayName("Service _ 장르별 Movie List 조회 _  성공")
     public class Success{
         @Test
         @DisplayName("성공")
-        void success_getMovieList(){
+        void success_getMovieListByGenre(){
             //given : 총 25개의 Movie가 있다고 가정
             long totalMovies = 25L;
             pageable = PageRequest.of(0,10);
             expectedResult = new PageImpl<>(testUtils.createMovieResDto(10),pageable,totalMovies);
-            when(movieRepository.getMovieList(0)).thenReturn(expectedResult);
+            when(movieRepository.getMovieListByGenre(anyLong(),anyInt())).thenReturn(expectedResult);
 
             //when
-            Page<MovieListResDto> actualResult = movieService.getMovieList(0);
+            Page<MovieListResDto> actualResult = movieService.getMovieListByGenre(0L,2);
 
             assertNotNull(actualResult);
             assertEquals(expectedResult.getContent(),actualResult.getContent());
             assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
 
-            verify(movieRepository,times(1)).getMovieList(0);
+            verify(movieRepository,times(1)).getMovieListByGenre(0L,2);
         }
 
         @Test
@@ -74,45 +72,56 @@ public class getMovieListServiceTest {
             int exceedPageNum = Integer.MAX_VALUE;
             //given : 총 25개의 Movie가 있다고 가정
             long totalMovies = 25;
-            int lastPageNum = 25 / 10 ;// 총 페이지의 수
+            int lastPageNum = 25/10;
             pageable = PageRequest.of(lastPageNum,10);
 
             expectedResult = new PageImpl<>(testUtils.createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
+
             when(movieRepository.count()).thenReturn(totalMovies);
-            when(movieRepository.getMovieList(lastPageNum)).thenReturn(expectedResult);
+            when(movieRepository.getMovieListByGenre(0L,lastPageNum)).thenReturn(expectedResult);
 
             //when
-            Page<MovieListResDto> actualResult = movieService.getMovieList(exceedPageNum);
+            Page<MovieListResDto> actualResult = movieService.getMovieListByGenre(0L,exceedPageNum);
 
             //then
             assertNotNull(actualResult);
             assertEquals(expectedResult.getContent(),actualResult.getContent());
             assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
 
-            verify(movieRepository,times(1)).getMovieList(lastPageNum);
             verify(movieRepository,times(1)).count();
+            verify(movieRepository,times(1)).getMovieListByGenre(0L,exceedPageNum);
+        }
+    }
 
+    @Nested
+    @DisplayName("Service _ 장르별 Movie List 조회 _  실패")
+    public class Failure{
+        @Test
+        @DisplayName("실패 _ 잘못된 장르Id")
+        void fail_Invalid_Genre(){
+            Long invalidGenreId = -1L;
 
+            Exception ex = assertThrows(CustomException.class,
+                    ()-> movieService.getMovieListByGenre(invalidGenreId,0));
+            assertEquals(ErrorCode.INVALID_GENRE_ID.getMessage(),
+                    ex.getMessage());
 
+            verify(movieRepository,never()).getMovieListByGenre(anyLong(),anyInt());
 
 
         }
-    }
-    @Nested
-    @DisplayName("Service _ Movie 리스트 조회  _ 실패")
-    public class Failure{
+
         @Test
         @DisplayName("실패 _ 페이지 넘버 오류")
         void fail_Invalid_Page_Number(){
-            int invalidPageNum =-1;
+            int invalidPageNum = -1;
 
             Exception ex = assertThrows(CustomException.class,
-                    ()-> movieService.getMovieList(invalidPageNum));
+                    ()->movieService.getMovieListByGenre(0L,invalidPageNum));
             assertEquals(ErrorCode.INVALID_PAGE_NUMBER.getMessage(),
                     ex.getMessage());
 
-            verify(movieRepository, never()).getMovieList(anyInt());
+            verify(movieRepository,never()).getMovieListByGenre(anyLong(),any());
         }
     }
-
 }

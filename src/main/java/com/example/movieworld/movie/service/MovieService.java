@@ -32,4 +32,8 @@ public class MovieService {
         if(!userRepository.existsById(userId)) throw new CustomException(ErrorCode.USER_NOT_EXIST);
         return movieRepository.getMovieDetail(movieId,userId);
     }
+
+    public Page<MovieListResDto> getMovieListByGenre(Long genreId, int pageNum){
+        return null;
+    }
 }
