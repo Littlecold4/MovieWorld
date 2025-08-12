@@ -3,7 +3,6 @@ package com.example.movieworld.movie.repository;
 import com.example.movieworld.TestUtils;
 import com.example.movieworld.User;
 import com.example.movieworld.UserRepository;
-import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @DisplayName("MovieRepository 테스트")
 @Import(TestUtils.class)
-public class getMovieDetailRepository {
+public class getMovieDetailRepositoryTest {
     @Autowired
     private MovieRepository movieRepository;
     @Autowired

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class getMovieDetailService {
+public class getMovieDetailServiceTest {
     @Mock
     private MovieRepository movieRepository;
     @Mock
