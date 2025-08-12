@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @DataJpaTest
-@DisplayName("MovieRepository 테스트")
+@DisplayName("getMovieListRepository 테스트")
 @Import(TestUtils.class)
 public class getMovieListRepository {
     @Autowired
