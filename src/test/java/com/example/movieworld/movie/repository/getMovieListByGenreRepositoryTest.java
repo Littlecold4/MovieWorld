@@ -55,11 +55,12 @@ public class getMovieListByGenreRepositoryTest {
             genreId = 4L;
             Page<MovieListResDto> genre4Result = movieRepository.getMovieListByGenre(genreId,pageNum);
 
+
             assertEquals(16,genre0Result.getTotalElements());
             assertEquals(15,genre4Result.getTotalElements());
 
-            assertEquals("TEST_title_0", genre0Result.getContent().get(0).getTitle());
-            assertEquals("TEST_title_10", genre4Result.getContent().get(0).getTitle());
+            assertEquals(1L, genre0Result.getContent().get(0).getMovieId());
+            assertEquals(11L, genre4Result.getContent().get(0).getMovieId());
 
             assertEquals(10,genre0Result.getSize());
             assertEquals(10,genre4Result.getSize());

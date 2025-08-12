@@ -3,6 +3,7 @@ package com.example.movieworld.movie.repository.querydsl;
 import com.example.movieworld.genre.GenreResDto;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,7 +32,7 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
     @Override
     public Page<MovieListResDto> getMovieList(int pageNum) {
         Pageable pageable = PageRequest.of(pageNum,10);
-        List<MovieListResDto> results = queryFactory
+        QueryResults<MovieListResDto> results = queryFactory
                 .select(Projections.constructor(
                         MovieListResDto.class,
                         movie.movieId,
@@ -44,29 +45,64 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
                 )).from(movie)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .fetchResults();
 
-        for(int i = 0; i<results.size(); i++){
+        List<MovieListResDto> movieList = results.getResults();
+
+        for(int i = 0; i<movieList.size(); i++){
             List<GenreResDto> genres = queryFactory
                     .select(Projections.constructor(
                             GenreResDto.class,
                             movieGenre.genre.genreId,
                             movieGenre.genre.genreName
                     )).from(movieGenre)
-                    .where(movieGenre.movie.movieId.eq(results.get(i).getMovieId()))
+                    .where(movieGenre.movie.movieId.eq(movieList.get(i).getMovieId()))
                     .from(movieGenre)
                     .fetch();
 
-            results.get(i).setGenres(genres);
+            movieList.get(i).setGenres(genres);
         }
 
-
-        return new PageImpl<>(results,pageable,results.size());
+        return new PageImpl<>(movieList,pageable,results.getTotal());
     }
 
     @Override
     public Page<MovieListResDto> getMovieListByGenre(Long genreId, int pageNum) {
-        return null;
+        Pageable pageable = PageRequest.of(pageNum,10);
+        QueryResults<MovieListResDto> results = queryFactory
+                .select(Projections.constructor(
+                        MovieListResDto.class,
+                        movie.movieId,
+                        movie.title,
+                        movie.overview,
+                        movie.adult,
+                        movie.releaseDate,
+                        movie.posterPath,
+                        movie.likes.size()
+                )).from(movie)
+                .join(movie.Genres,movieGenre)
+                .where(movieGenre.genre.genreId.eq(genreId)
+                        .and(movieGenre.movie.eq(movie)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MovieListResDto> movieList = results.getResults();
+
+        for(int i = 0; i<movieList.size(); i++) {
+            List<GenreResDto> genres = queryFactory
+                    .select(Projections.constructor(
+                            GenreResDto.class,
+                            movieGenre.genre.genreId,
+                            movieGenre.genre.genreName
+                    )).from(movieGenre)
+                    .where(movieGenre.movie.movieId.eq(movieList.get(i).getMovieId()))
+                    .from(movieGenre)
+                    .fetch();
+
+            movieList.get(i).setGenres(genres);
+        }
+        return new PageImpl<>(movieList,pageable,results.getTotal());
     }
 
     @Override
