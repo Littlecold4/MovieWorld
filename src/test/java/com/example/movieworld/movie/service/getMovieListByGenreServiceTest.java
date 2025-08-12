@@ -3,6 +3,7 @@ package com.example.movieworld.movie.service;
 import com.example.movieworld.TestUtils;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
+import com.example.movieworld.genre.GenreRepository;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,8 @@ import static org.mockito.Mockito.*;
 public class getMovieListByGenreServiceTest {
     @Mock
     private MovieRepository movieRepository;
+    @Mock
+    private GenreRepository genreRepository;
     @InjectMocks
     private MovieService movieService;
     @Autowired
@@ -55,15 +58,16 @@ public class getMovieListByGenreServiceTest {
             pageable = PageRequest.of(0,10);
             expectedResult = new PageImpl<>(testUtils.createMovieResDto(10),pageable,totalMovies);
             when(movieRepository.getMovieListByGenre(anyLong(),anyInt())).thenReturn(expectedResult);
+            when(genreRepository.existsById(0L)).thenReturn(true);
 
             //when
-            Page<MovieListResDto> actualResult = movieService.getMovieListByGenre(0L,2);
+            Page<MovieListResDto> actualResult = movieService.getMovieListByGenre(0L,0);
 
             assertNotNull(actualResult);
             assertEquals(expectedResult.getContent(),actualResult.getContent());
             assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
 
-            verify(movieRepository,times(1)).getMovieListByGenre(0L,2);
+            verify(movieRepository,times(1)).getMovieListByGenre(0L,0);
         }
 
         @Test
@@ -77,6 +81,7 @@ public class getMovieListByGenreServiceTest {
 
             expectedResult = new PageImpl<>(testUtils.createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
 
+            when(genreRepository.existsById(0L)).thenReturn(true);
             when(movieRepository.count()).thenReturn(totalMovies);
             when(movieRepository.getMovieListByGenre(0L,lastPageNum)).thenReturn(expectedResult);
 
@@ -89,7 +94,7 @@ public class getMovieListByGenreServiceTest {
             assertEquals(expectedResult.getTotalElements(),actualResult.getTotalElements());
 
             verify(movieRepository,times(1)).count();
-            verify(movieRepository,times(1)).getMovieListByGenre(0L,exceedPageNum);
+            verify(movieRepository,times(1)).getMovieListByGenre(0L,2);
         }
     }
 
@@ -100,6 +105,8 @@ public class getMovieListByGenreServiceTest {
         @DisplayName("실패 _ 잘못된 장르Id")
         void fail_Invalid_Genre(){
             Long invalidGenreId = -1L;
+            when(genreRepository.existsById(invalidGenreId)).thenReturn(false);
+
 
             Exception ex = assertThrows(CustomException.class,
                     ()-> movieService.getMovieListByGenre(invalidGenreId,0));
@@ -107,21 +114,23 @@ public class getMovieListByGenreServiceTest {
                     ex.getMessage());
 
             verify(movieRepository,never()).getMovieListByGenre(anyLong(),anyInt());
-
-
+            verify(genreRepository,times(1)).existsById(anyLong());
         }
 
         @Test
         @DisplayName("실패 _ 페이지 넘버 오류")
         void fail_Invalid_Page_Number(){
             int invalidPageNum = -1;
+            when(genreRepository.existsById(0L)).thenReturn(true);
+
 
             Exception ex = assertThrows(CustomException.class,
                     ()->movieService.getMovieListByGenre(0L,invalidPageNum));
             assertEquals(ErrorCode.INVALID_PAGE_NUMBER.getMessage(),
                     ex.getMessage());
 
-            verify(movieRepository,never()).getMovieListByGenre(anyLong(),any());
+            verify(movieRepository,never()).getMovieListByGenre(anyLong(),anyInt());
+            verify(genreRepository,times(1)).existsById(anyLong());
         }
     }
 }

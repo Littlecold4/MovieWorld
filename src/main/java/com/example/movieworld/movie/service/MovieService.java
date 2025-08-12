@@ -3,6 +3,7 @@ package com.example.movieworld.movie.service;
 import com.example.movieworld.UserRepository;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
+import com.example.movieworld.genre.GenreRepository;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
@@ -20,6 +21,9 @@ public class MovieService {
     private MovieRepository movieRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GenreRepository genreRepository;
+
     public Page<MovieListResDto> getMovieList(int pageNum){
         if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
         long totalMovies = movieRepository.count();
@@ -34,6 +38,10 @@ public class MovieService {
     }
 
     public Page<MovieListResDto> getMovieListByGenre(Long genreId, int pageNum){
-        return null;
+        if(!genreRepository.existsById(genreId)) throw new CustomException(ErrorCode.INVALID_GENRE_ID);
+        if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
+        long totalMovies = movieRepository.count();
+        if(pageNum > totalMovies/10) pageNum = (int) totalMovies/10;
+        return movieRepository.getMovieListByGenre(genreId,pageNum);
     }
 }
