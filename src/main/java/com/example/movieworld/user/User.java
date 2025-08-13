@@ -1,5 +1,6 @@
-package com.example.movieworld;
+package com.example.movieworld.user;
 
+import com.example.movieworld.Like;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

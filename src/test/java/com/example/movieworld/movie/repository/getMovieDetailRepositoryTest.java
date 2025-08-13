@@ -1,8 +1,8 @@
 package com.example.movieworld.movie.repository;
 
 import com.example.movieworld.TestUtils;
-import com.example.movieworld.User;
-import com.example.movieworld.UserRepository;
+import com.example.movieworld.user.User;
+import com.example.movieworld.user.UserRepository;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

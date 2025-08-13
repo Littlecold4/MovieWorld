@@ -2,6 +2,7 @@ package com.example.movieworld.movie.dto;
 
 import com.example.movieworld.genre.GenreResDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class MovieDetailResDto {
     private int likeCnt;
     private boolean likeChk;
 
+    @Builder
     public MovieDetailResDto(Long movieId, String title, String overview, boolean adult, String releaseDate, String posterPath, int likeCnt, boolean likeChk) {
         this.movieId = movieId;
         this.title = title;

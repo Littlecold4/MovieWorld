@@ -2,19 +2,21 @@ package com.example.movieworld.movie.controller;
 
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
+import com.example.movieworld.security.WithMockCustomUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(MovieController.class)
 public class getMovieListControllerTest {
@@ -22,7 +24,7 @@ public class getMovieListControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Mock
+    @MockBean
     private MovieService movieService;
 
     Page<MovieListResDto> expectedResult;
@@ -34,6 +36,7 @@ public class getMovieListControllerTest {
 
     @Test
     @DisplayName("Controller _ Movie 리스트 조회 성공")
+    @WithMockCustomUser
     void success_getMovieList() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/movie")
                 .contentType(MediaType.APPLICATION_JSON)

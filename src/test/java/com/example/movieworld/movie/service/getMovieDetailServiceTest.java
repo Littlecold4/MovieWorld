@@ -1,6 +1,6 @@
 package com.example.movieworld.movie.service;
 
-import com.example.movieworld.UserRepository;
+import com.example.movieworld.user.UserRepository;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
