@@ -1,5 +1,7 @@
 package com.example.movieworld.user.service;
 
+import com.example.movieworld.common.CustomException;
+import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.dto.SignUpReqDto;
 import com.example.movieworld.user.repository.UserRepository;
@@ -14,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class SignupServiceTest {
@@ -49,7 +53,7 @@ public class SignupServiceTest {
                 return user;
             });
             //when
-            userService.singUp(signUpReqDto);
+            userService.signUp(signUpReqDto);
 
             //then
             verify(userRepository,times(1)).existsByUserEmail(signUpReqDto.getUserEmail());
@@ -72,8 +76,12 @@ public class SignupServiceTest {
 
             when(userRepository.existsByUserEmail(signUpReqDto.getUserEmail())).thenReturn(true);
             //when
-            userService.singUp(signUpReqDto);
+            Exception ex = assertThrows(CustomException.class,
+                    ()-> userService.signUp(signUpReqDto));
             //then
+            assertEquals(ErrorCode.DUPLICATED_USEREMAIL.getMessage(),
+                    ex.getMessage());
+
             verify(userRepository,times(1)).existsByUserEmail(signUpReqDto.getUserEmail());
             verify(passwordEncoder,never()).encode(signUpReqDto.getPassword());
             verify(userRepository,never()).save(any(User.class));
