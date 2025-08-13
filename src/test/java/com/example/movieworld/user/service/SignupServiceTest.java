@@ -53,9 +53,10 @@ public class SignupServiceTest {
                 return user;
             });
             //when
-            userService.signUp(signUpReqDto);
+            User user = userService.signUp(signUpReqDto);
 
             //then
+            assertEquals(1L,user.getId());
             verify(userRepository,times(1)).existsByUserEmail(signUpReqDto.getUserEmail());
             verify(passwordEncoder,times(1)).encode(signUpReqDto.getPassword());
             verify(userRepository,times(1)).save(any(User.class));
