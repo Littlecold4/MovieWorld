@@ -36,7 +36,7 @@ public class getMovieLIstByGenreControllerTest {
     @DisplayName("Controller _ 장르별 Movie 리스트 조회 성공")
     @WithMockCustomUser
     void success_getMovieListByGenre() throws Exception{
-        mvc.perform(MockMvcRequestBuilders.get("/movie/1/1")
+        mvc.perform(MockMvcRequestBuilders.get("/movie/genre/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("pageNum","0"))
                 .andExpect(MockMvcResultMatchers.status().is(200));

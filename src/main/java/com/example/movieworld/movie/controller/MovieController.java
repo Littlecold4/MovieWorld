@@ -18,7 +18,8 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("")
-    public ResponseEntity<Page<MovieListResDto>> getMovieList(@RequestParam int pageNum) {
+    public ResponseEntity<Page<MovieListResDto>> getMovieList(@RequestParam int pageNum,
+                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new ResponseEntity<>(movieService.getMovieList(pageNum),HttpStatus.OK);
     }
 
@@ -26,6 +27,13 @@ public class MovieController {
     public ResponseEntity<MovieDetailResDto> getMovieDetail(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                             @PathVariable Long movieId){
         return new ResponseEntity<>(movieService.getMovieDetail(movieId,userDetails.getUser().getId()),HttpStatus.OK);
+    }
+
+    @GetMapping("/genre/{genreId}")
+    public ResponseEntity<Page<MovieListResDto>> getMovieListByGenre(@RequestParam int pageNum,
+                                                                     @PathVariable Long genreId,
+                                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return new ResponseEntity<>(movieService.getMovieListByGenre(genreId,pageNum),HttpStatus.OK);
     }
 
 }
