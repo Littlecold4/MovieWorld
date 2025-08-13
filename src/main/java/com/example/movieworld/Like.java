@@ -1,7 +1,7 @@
 package com.example.movieworld;
 
 import com.example.movieworld.movie.domain.Movie;
-import com.example.movieworld.user.User;
+import com.example.movieworld.user.domain.User;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,7 +1,7 @@
 package com.example.movieworld.security;
 
-import com.example.movieworld.user.User;
-import com.example.movieworld.user.UserDetailsImpl;
+import com.example.movieworld.user.domain.User;
+import com.example.movieworld.user.domain.UserDetailsImpl;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
