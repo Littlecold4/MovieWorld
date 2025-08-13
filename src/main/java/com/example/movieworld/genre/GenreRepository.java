@@ -1,5 +1,6 @@
-package com.example.movieworld;
+package com.example.movieworld.genre;
 
+import com.example.movieworld.genre.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package com.example.movieworld;
 
+import com.example.movieworld.genre.Genre;
 import com.example.movieworld.movie.domain.Movie;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

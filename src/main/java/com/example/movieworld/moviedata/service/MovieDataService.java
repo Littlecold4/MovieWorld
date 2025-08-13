@@ -1,7 +1,7 @@
 package com.example.movieworld.moviedata.service;
 
-import com.example.movieworld.Genre;
-import com.example.movieworld.GenreRepository;
+import com.example.movieworld.genre.Genre;
+import com.example.movieworld.genre.GenreRepository;
 import com.example.movieworld.MovieGenre;
 import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.moviedata.dto.GenreInputDto;

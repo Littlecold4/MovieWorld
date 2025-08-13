@@ -1,9 +1,13 @@
 package com.example.movieworld.movie.repository.querydsl;
 
-import com.example.movieworld.movie.dto.MovieResDto;
+import com.example.movieworld.movie.dto.MovieDetailResDto;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface MovieRepositoryQuerydsl {
-    Page<MovieResDto> getMovieList(Pageable pageable);
+    Page<MovieListResDto> getMovieList(int pageNum);
+    Page<MovieListResDto> getMovieListByGenre(Long genreId,int pageNum);
+
+
+    MovieDetailResDto getMovieDetail(Long movieId,Long userId);
 }

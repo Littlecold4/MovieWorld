@@ -1,4 +1,4 @@
-package com.example.movieworld;
+package com.example.movieworld.genre;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

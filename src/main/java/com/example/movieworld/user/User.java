@@ -1,12 +1,18 @@
-package com.example.movieworld;
+package com.example.movieworld.user;
 
+import com.example.movieworld.Like;
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "TB_USER")
+@NoArgsConstructor
+@Getter
 public class User {
 
     @Id
@@ -31,6 +37,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-
-
+    @Builder
+    public User(String userEmail, String userName, String password) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.password = password;
+    }
 }
