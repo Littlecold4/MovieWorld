@@ -3,13 +3,11 @@ package com.example.movieworld.user.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
+@Setter
 @Builder
 @NoArgsConstructor
 public class SignUpReqDto {
