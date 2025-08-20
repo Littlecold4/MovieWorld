@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다."),
     DUPLICATED_USEREMAIL(HttpStatus.BAD_REQUEST,"중복된 이메일입니다."),
     INVALID_GENRE_ID(HttpStatus.BAD_REQUEST,"잘못된 장르 정보입니다."),
     INVALID_PAGE_NUMBER(HttpStatus.BAD_REQUEST,"잘못된 페이지 넘버입니다."),

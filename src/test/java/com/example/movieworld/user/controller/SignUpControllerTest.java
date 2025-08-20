@@ -3,7 +3,6 @@ package com.example.movieworld.user.controller;
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.dto.SignUpReqDto;
 import com.example.movieworld.user.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 
 @WebMvcTest(UserController.class)
-public class SingUpControllerTest {
+public class SignUpControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mvc;

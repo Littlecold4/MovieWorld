@@ -72,6 +72,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/get/korean").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/get/genre").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/user/login").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();

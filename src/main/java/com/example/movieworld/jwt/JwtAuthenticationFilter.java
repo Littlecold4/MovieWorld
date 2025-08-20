@@ -31,7 +31,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/get/korean",
             "/h2-console/**",
             "/swagger-ui/**",
-            "/get/genre"
+            "/get/genre",
+            "/user/login"
             // 여기에 WebSecurityConfig에서 permitAll()로 설정한 모든 경로를 추가해주세요.
             // 와일드카드 문자(예: /**) 처리 로직도 필요합니다.
     };
