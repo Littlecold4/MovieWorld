@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+    MOVIE_ALREADY_LIKED(HttpStatus.BAD_REQUEST,"이미 좋아요를 누른 영화입니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다."),
     DUPLICATED_USEREMAIL(HttpStatus.BAD_REQUEST,"중복된 이메일입니다."),
     INVALID_GENRE_ID(HttpStatus.BAD_REQUEST,"잘못된 장르 정보입니다."),

@@ -17,7 +17,7 @@ import java.util.List;
 
 import static com.example.movieworld.movie.domain.QMovie.movie;
 import static com.example.movieworld.QMovieGenre.movieGenre;
-import static com.example.movieworld.QLike.like;
+import static com.example.movieworld.like.domain.QLike.like;
 import static com.querydsl.jpa.JPAExpressions.*;
 
 

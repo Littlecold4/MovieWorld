@@ -60,5 +60,8 @@ public class Movie {
         movieGenre.setMovie(this);
     }
 
-
+    public Movie(Long movieId, String title) {
+        this.movieId = movieId;
+        this.title = title;
+    }
 }

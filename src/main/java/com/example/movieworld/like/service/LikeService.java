@@ -4,4 +4,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LikeService {
+
+    public void likeMovie(Long postId,Long userId){
+
+    }
 }
