@@ -1,4 +1,4 @@
-package com.example.movieworld.user;
+package com.example.movieworld.user.domain;
 
 import com.example.movieworld.Like;
 import jakarta.persistence.*;
@@ -23,7 +23,7 @@ public class User {
     @Column(name = "USER_EMAIL",unique = true)
     private String userEmail;
 
-    @Column(name = "USER_NAME",unique = true)
+    @Column(name = "USER_NAME")
     private String userName;
 
     @Column(name = "PASSWORD")
@@ -42,5 +42,9 @@ public class User {
         this.userEmail = userEmail;
         this.userName = userName;
         this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

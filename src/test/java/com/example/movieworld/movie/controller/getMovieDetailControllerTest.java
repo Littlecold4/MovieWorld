@@ -1,14 +1,17 @@
 package com.example.movieworld.movie.controller;
 
+import com.example.movieworld.jwt.TokenProvider;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.service.MovieService;
 import com.example.movieworld.security.WithMockCustomUser;
+import org.apache.catalina.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -20,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 
 @WebMvcTest(MovieController.class)
+@Import(SecurityConfig.class)
 public class getMovieDetailControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -27,6 +31,9 @@ public class getMovieDetailControllerTest {
 
     @MockBean
     private MovieService movieService;
+
+    @MockBean
+    private TokenProvider tokenProvider;
 
     MovieDetailResDto expectedResult;
 
