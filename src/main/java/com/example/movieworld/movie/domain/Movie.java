@@ -1,6 +1,6 @@
 package com.example.movieworld.movie.domain;
 
-import com.example.movieworld.Like;
+import com.example.movieworld.like.domain.Like;
 import com.example.movieworld.MovieGenre;
 import com.example.movieworld.moviedata.dto.MovieDataDto;
 import jakarta.persistence.*;

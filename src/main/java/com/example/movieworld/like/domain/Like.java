@@ -1,4 +1,4 @@
-package com.example.movieworld;
+package com.example.movieworld.like.domain;
 
 import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.user.User;
