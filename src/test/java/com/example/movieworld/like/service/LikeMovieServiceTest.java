@@ -1,6 +1,5 @@
 package com.example.movieworld.like.service;
 
-import com.example.movieworld.TestUtils;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.like.domain.Like;
@@ -17,16 +16,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 public class LikeMovieServiceTest {
     @Mock
     private LikeRepository likeRepository;
@@ -41,7 +38,7 @@ public class LikeMovieServiceTest {
     @BeforeEach
     void setup(){
         movieId=1L;
-        userId = 1L;
+        userId = 2L;
         movie =new Movie(movieId,"TEST_title_1");
         loginUser = new User(userId,"TEST_userName_1");
     }
@@ -56,7 +53,7 @@ public class LikeMovieServiceTest {
             when(likeRepository.existsByUserAndMovie(loginUser,movie)).thenReturn(false);
             when(likeRepository.save(any(Like.class))).thenReturn(new Like());
 
-            likeService.likeMovie(movie.getMovieId(),loginUser.getId());
+            likeService.likeMovie(movieId,userId);
 
             verify(movieRepository,times(1)).findById(movieId);
             verify(userRepository,times(1)).findById(userId);
