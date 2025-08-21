@@ -22,11 +22,6 @@ spring:
         #      hibernate.format_sql: true
         #      hibernate.dialect: org.hibernate.dialect.H2Dialect
         defer-datasource-initialization: false
-    redis:
-        host: 127.0.0.1
-        port: 6379
-        password: jang
-
 
     servlet:
         multipart:

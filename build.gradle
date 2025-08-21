@@ -26,6 +26,8 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation "com.h2database:h2:2.3.232"
 
+    implementation 'com.auth0:java-jwt:3.18.2'
+
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

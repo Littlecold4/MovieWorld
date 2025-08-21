@@ -3,7 +3,7 @@ package com.example.movieworld.movie.controller;
 import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
-import com.example.movieworld.user.UserDetailsImpl;
+import com.example.movieworld.user.domain.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
