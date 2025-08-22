@@ -36,12 +36,14 @@ public class UnlikeMovieServiceTest {
     private User loginUser;
     private Long movieId;
     private Long userId;
+    private Like like;
     @BeforeEach
     void setup(){
         movieId=1L;
         userId = 2L;
         movie =new Movie(movieId,"TEST_title_1");
         loginUser = new User(userId,"TEST_userName_1");
+        like = new Like();
     }
     @Nested
     @DisplayName("Service _ Movie 좋아요 취소 _ 성공")
@@ -51,14 +53,14 @@ public class UnlikeMovieServiceTest {
         void success_unlikeMovie(){
             when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
             when(userRepository.findById(userId)).thenReturn(Optional.of(loginUser));
-            when(likeRepository.existsByUserAndMovie(loginUser,movie)).thenReturn(true);
+            when(likeRepository.findByUserAndMovie(loginUser,movie)).thenReturn(Optional.of(like));
             doNothing().when(likeRepository).delete(any(Like.class));
 
             likeService.unlikeMovie(movieId,userId);
 
             verify(movieRepository,times(1)).findById(movieId);
             verify(userRepository,times(1)).findById(userId);
-            verify(likeRepository,times(1)).existsByUserAndMovie(loginUser,movie);
+            verify(likeRepository,times(1)).findByUserAndMovie(loginUser,movie);
             verify(likeRepository,times(1)).delete(any(Like.class));
         }
     }
@@ -93,7 +95,7 @@ public class UnlikeMovieServiceTest {
 
             verify(movieRepository,times(1)).findById(movieId);
             verify(userRepository,times(1)).findById(userId);
-            verify(likeRepository,never()).existsByUserAndMovie(loginUser,movie);
+            verify(likeRepository,never()).findByUserAndMovie(loginUser,movie);
             verify(likeRepository,never()).delete(any(Like.class));
         }
 
@@ -102,7 +104,8 @@ public class UnlikeMovieServiceTest {
         void fail_Movie_Already_Liked(){
             when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
             when(userRepository.findById(userId)).thenReturn(Optional.of(loginUser));
-            when(likeRepository.existsByUserAndMovie(loginUser,movie)).thenReturn(false);
+            when(likeRepository.findByUserAndMovie(loginUser,movie))
+                    .thenThrow(new CustomException(ErrorCode.MOVIE_ALREADY_UNLIKED));
 
 
             Exception ex = assertThrows(CustomException.class,
@@ -112,7 +115,7 @@ public class UnlikeMovieServiceTest {
 
             verify(movieRepository,times(1)).findById(movieId);
             verify(userRepository,times(1)).findById(userId);
-            verify(likeRepository,times(1)).existsByUserAndMovie(loginUser,movie);
+            verify(likeRepository,times(1)).findByUserAndMovie(loginUser,movie);
             verify(likeRepository,never()).delete(any(Like.class));
         }
     }

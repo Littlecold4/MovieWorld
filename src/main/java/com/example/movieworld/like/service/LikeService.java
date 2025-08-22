@@ -36,6 +36,16 @@ public class LikeService {
     }
 
     public void unlikeMovie(Long movieId,Long userId){
+        Movie movie = movieRepository.findById(movieId).orElseThrow(
+                ()-> new CustomException(ErrorCode.MOVIE_NOT_EXIST)
+        );
+        User user = userRepository.findById(userId).orElseThrow(
+                ()->new CustomException(ErrorCode.USER_NOT_EXIST)
+        );
 
+        Like like = likeRepository.findByUserAndMovie(user,movie).orElseThrow(
+                ()-> new CustomException(ErrorCode.MOVIE_ALREADY_UNLIKED)
+        );
+        likeRepository.delete(like);
     }
 }
