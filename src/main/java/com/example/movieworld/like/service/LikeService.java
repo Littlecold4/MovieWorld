@@ -34,4 +34,8 @@ public class LikeService {
 
         likeRepository.save(like);
     }
+
+    public void unlikeMovie(Long movieId,Long userId){
+
+    }
 }
