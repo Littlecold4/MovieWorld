@@ -1,5 +1,6 @@
 package com.example.movieworld.movie.controller;
 
+import com.example.movieworld.jwt.JwtAuthenticationFilter;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import com.example.movieworld.security.WithMockCustomUser;
@@ -26,6 +27,8 @@ public class getMovieLIstByGenreControllerTest {
     @MockBean
     private MovieService movieService;
     Page<MovieListResDto> expectedResult;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @BeforeEach
     void setup(){

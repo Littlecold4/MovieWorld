@@ -28,10 +28,7 @@ public class LikeService {
         if(likeRepository.existsByUserAndMovie(user,movie))
             throw new CustomException(ErrorCode.MOVIE_ALREADY_LIKED);
 
-        Like like = new Like();
-        movie.getLikes().add(like);
-        user.getLikes().add(like);
-
+        Like like = new Like(user,movie);
         likeRepository.save(like);
     }
 

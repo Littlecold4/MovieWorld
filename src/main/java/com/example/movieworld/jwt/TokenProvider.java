@@ -2,27 +2,24 @@ package com.example.movieworld.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException; // JWT 관련 모든 예외를 잡을 수 있는 상위 클래스
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.example.movieworld.user.service.UserDetailsService; // import 경로 확인
+import com.example.movieworld.user.service.UserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import jakarta.servlet.http.HttpServletRequest; // jakarta.* 사용
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component // 스프링 빈으로 등록
 @Slf4j // 로깅 사용
@@ -119,7 +116,7 @@ public class TokenProvider {
 //                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC))
 //                .sign(generateAlgorithm(JWT_SECRET));
         token =JWT.create()
-                .withSubject(userEmail) // <-- 이 부분이 핵심입니다! userEmail을 subject로 설정해야 합니다.
+                .withSubject(userEmail)
                 .withIssuedAt(new Date()) // 토큰 발급 시간
                 .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC)) // 토큰 만료 시간
                 // .withClaim("customClaim", "value") // 필요한 경우 다른 클레임 추가

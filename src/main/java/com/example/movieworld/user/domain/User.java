@@ -44,6 +44,14 @@ public class User {
         this.password = password;
     }
 
+    @Builder
+    public User(Long id, String userEmail, String userName, String password) {
+        this.id = id;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.password = password;
+    }
+
     public User(Long id, String userName) {
         this.id = id;
         this.userName = userName;
