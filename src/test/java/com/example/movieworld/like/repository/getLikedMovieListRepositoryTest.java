@@ -1,6 +1,7 @@
 package com.example.movieworld.like.repository;
 
 import com.example.movieworld.TestUtils;
+import com.example.movieworld.config.QuerydslConfig;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,14 +20,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@Import(TestUtils.class)
+@Import({TestUtils.class, QuerydslConfig.class})
 public class getLikedMovieListRepositoryTest {
     @Autowired
     private TestUtils testUtils;
     @Autowired
     private LikeRepository likeRepository;
     private User loginUser;
-    private int pageNum;
 
     @BeforeEach
     void setup(){
@@ -51,16 +51,16 @@ public class getLikedMovieListRepositoryTest {
         @Test
         @DisplayName("Success _ getLikedMovieList")
         void success_getLikedMovieList(){
-            pageNum = 0;
-            Page<MovieListResDto> results = likeRepository.getLikeMovieList(0);
+            int pageNum = 0;
+            Page<MovieListResDto> results = likeRepository.getLikeMovieList(pageNum,loginUser);
 
             assertEquals(4,results.getTotalElements());
             assertEquals(1,results.getTotalPages());
 
-            assertEquals("TEST_title_0",results.getContent().get(0).getTitle());
-            assertEquals("TEST_title_5",results.getContent().get(1).getTitle());
-            assertEquals("TEST_title_10",results.getContent().get(2).getTitle());
-            assertEquals("TEST_title_15",results.getContent().get(3).getTitle());
+            assertEquals(1L,results.getContent().get(0).getMovieId());
+            assertEquals(5L,results.getContent().get(1).getMovieId());
+            assertEquals(10L,results.getContent().get(2).getMovieId());
+            assertEquals(15L,results.getContent().get(3).getMovieId());
 
             assertEquals(1,results.getContent().get(0).getLikeCnt());
 

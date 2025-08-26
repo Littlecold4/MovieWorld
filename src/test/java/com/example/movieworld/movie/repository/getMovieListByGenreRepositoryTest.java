@@ -1,6 +1,7 @@
 package com.example.movieworld.movie.repository;
 
 import com.example.movieworld.TestUtils;
+import com.example.movieworld.config.QuerydslConfig;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @DisplayName("getMovieListByGenreRepository 테스트")
-@Import(TestUtils.class)
+@Import({TestUtils.class, QuerydslConfig.class})
 public class getMovieListByGenreRepositoryTest {
     @Autowired
     private TestUtils testUtils;
