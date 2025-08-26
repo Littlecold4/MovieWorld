@@ -21,13 +21,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//@SpringBootTest
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
-//@ActiveProfiles("test")
 public class getMovieListServiceTest {
 
     @Mock
@@ -35,11 +35,9 @@ public class getMovieListServiceTest {
 
     @InjectMocks
     private MovieService movieService;
-    @Autowired
-    private TestUtils testUtils;
 
     private Pageable pageable;
-    Page<MovieListResDto> expectedResult;
+    Page<MovieListResDto> expectedResult =null;
 
     @BeforeEach
     void setup(){
@@ -55,7 +53,7 @@ public class getMovieListServiceTest {
             //given : 총 25개의 Movie가 있다고 가정
             long totalMovies = 25L;
             pageable = PageRequest.of(0,10);
-            expectedResult = new PageImpl<>(testUtils.createMovieResDto(10),pageable,totalMovies);
+            expectedResult = new PageImpl<>(createMovieResDto(10),pageable,totalMovies);
             when(movieRepository.getMovieList(0)).thenReturn(expectedResult);
 
             //when
@@ -77,7 +75,7 @@ public class getMovieListServiceTest {
             int lastPageNum = 25 / 10 ;// 총 페이지의 수
             pageable = PageRequest.of(lastPageNum,10);
 
-            expectedResult = new PageImpl<>(testUtils.createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
+            expectedResult = new PageImpl<>(createMovieResDto(5),pageable,totalMovies); // 마지막 페이지는 5개의 movie를 가짐
             when(movieRepository.count()).thenReturn(totalMovies);
             when(movieRepository.getMovieList(lastPageNum)).thenReturn(expectedResult);
 
@@ -113,6 +111,19 @@ public class getMovieListServiceTest {
 
             verify(movieRepository, never()).getMovieList(anyInt());
         }
+    }
+
+    private List<MovieListResDto> createMovieResDto(int num){
+        List<MovieListResDto> movieListResDtoList = new ArrayList<>();
+        for(int i =0 ;i<num; i++){
+            MovieListResDto testMovie = new MovieListResDto().builder()
+                    .movieId((long)num)
+                    .title("TEST_title_"+num)
+                    .build();
+
+            movieListResDtoList.add(testMovie);
+        }
+        return movieListResDtoList;
     }
 
 }
