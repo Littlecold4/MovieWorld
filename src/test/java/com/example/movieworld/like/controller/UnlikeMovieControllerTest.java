@@ -16,13 +16,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
@@ -32,8 +36,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-@WebMvcTest(LikeController.class)
-@Import(WebSecurityConfig.class)
+@WebMvcTest(controllers = LikeController.class)
+//excludeAutoConfiguration = SecurityAutoConfiguration.class,
+//excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {OncePerRequestFilter.class}))
+//@Import(WebSecurityConfig.class)
 public class UnlikeMovieControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -47,12 +53,7 @@ public class UnlikeMovieControllerTest {
     private TokenProvider tokenProvider;
 
     @BeforeEach
-    void setup() throws ServletException, IOException {
-        doNothing().when(jwtAuthenticationFilter).doFilterInternal(
-                any(HttpServletRequest.class),
-                any(HttpServletResponse.class),
-                any(FilterChain.class)
-        );
+    void setup() {
     }
 
     @Nested

@@ -63,6 +63,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/get/genre").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/user/login").permitAll()
+//                                .requestMatchers(HttpMethod.DELETE,"/like/unlike/1").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();
