@@ -17,11 +17,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static com.example.movieworld.TestUtils.createMovieResDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class getMovieListServiceTest {
@@ -107,18 +106,4 @@ public class getMovieListServiceTest {
             verify(movieRepository, never()).getMovieList(anyInt());
         }
     }
-
-    private List<MovieListResDto> createMovieResDto(int num){
-        List<MovieListResDto> movieListResDtoList = new ArrayList<>();
-        for(int i =0 ;i<num; i++){
-            MovieListResDto testMovie = new MovieListResDto().builder()
-                    .movieId((long)i)
-                    .title("TEST_title_"+i)
-                    .build();
-
-            movieListResDtoList.add(testMovie);
-        }
-        return movieListResDtoList;
-    }
-
 }

@@ -62,7 +62,7 @@ public class TestUtils {
         return genreRepository.saveAll(mockGenreList);
     }
 
-    public List<MovieListResDto> createMovieResDto(int num){
+    public static List<MovieListResDto> createMovieResDto(int num){
         List<MovieListResDto> movieListResDtoList = new ArrayList<>();
         for(int i =0 ;i<num; i++){
             MovieListResDto testMovie = new MovieListResDto().builder()
@@ -93,5 +93,5 @@ public class TestUtils {
         likeRepository.save(like);
     }
 
-    
+
 }
