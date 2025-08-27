@@ -1,8 +1,10 @@
 package com.example.movieworld.like.controller;
 
 import com.example.movieworld.like.service.LikeService;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.user.domain.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,14 @@ public class LikeController {
                                               @PathVariable Long movieId){
         likeService.unlikeMovie(movieId,userDetails.getUser().getId());
         return ResponseEntity.ok("좋아요 취소 처리에 성공하였습니다.");
+    }
+
+    @GetMapping("/movie")
+    public ResponseEntity<Page<MovieListResDto>> getLikedMovieList(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                   @RequestParam int pageNum){
+        return ResponseEntity.ok(
+                likeService.getLikedMovieList(pageNum,userDetails.getUser().getId())
+        );
     }
 
 }
