@@ -47,11 +47,11 @@ public class LikeMovieControllerTest {
 
     @BeforeEach
     void setup() throws ServletException, IOException {
-        doNothing().when(jwtAuthenticationFilter).doFilterInternal(
-                any(HttpServletRequest.class),
-                any(HttpServletResponse.class),
-                any(FilterChain.class)
-        );
+//        doNothing().when(jwtAuthenticationFilter).doFilterInternal(
+//                any(HttpServletRequest.class),
+//                any(HttpServletResponse.class),
+//                any(FilterChain.class)
+//        );
     }
 
     @Nested
