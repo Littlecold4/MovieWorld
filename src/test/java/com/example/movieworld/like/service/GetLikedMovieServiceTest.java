@@ -86,6 +86,7 @@ public class GetLikedMovieServiceTest {
             expectedResult = new PageImpl<>(createMovieResDto(5),pageable,totalLikedMovies); // 마지막 페이지는 5개의 movie를 가짐
             when(movieRepository.count()).thenReturn(totalLikedMovies);
             when(likeRepository.getLikeMovieList(lastPageNum,loginUser)).thenReturn(expectedResult);
+            when(userRepository.findById(loginUser.getId())).thenReturn(Optional.of(loginUser));
 
             //when
             Page<MovieListResDto> actualResult = likeService.getLikedMovieList(exceedPageNum,loginUser.getId());

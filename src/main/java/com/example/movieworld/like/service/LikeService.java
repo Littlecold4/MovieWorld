@@ -49,6 +49,13 @@ public class LikeService {
     }
 
     public Page<MovieListResDto> getLikedMovieList(int pageNum, Long userId){
-        return null;
+        if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
+        User user = userRepository.findById(userId).orElseThrow(
+                ()-> new CustomException(ErrorCode.USER_NOT_EXIST)
+        );
+
+        long totalMovies = movieRepository.count();
+        if(pageNum>totalMovies/10) pageNum = (int) totalMovies/10;
+        return likeRepository.getLikeMovieList(pageNum,user);
     }
 }
