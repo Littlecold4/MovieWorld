@@ -1,10 +1,16 @@
 package com.example.movieworld;
 
+import com.example.movieworld.common.CustomException;
+import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.genre.Genre;
 import com.example.movieworld.genre.GenreRepository;
+import com.example.movieworld.like.domain.Like;
+import com.example.movieworld.like.repository.LikeRepository;
 import com.example.movieworld.movie.domain.Movie;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
+import com.example.movieworld.user.domain.User;
+import com.example.movieworld.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +24,10 @@ public class TestUtils {
     private MovieRepository movieRepository;
     @Autowired
     private GenreRepository genreRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private LikeRepository likeRepository;
 
     public List<Movie> addMockMovie(int num,List<Long> genreIdList){
         List<Movie> mockMovieList = new ArrayList<>();
@@ -52,7 +62,7 @@ public class TestUtils {
         return genreRepository.saveAll(mockGenreList);
     }
 
-    public List<MovieListResDto> createMovieResDto(int num){
+    public static List<MovieListResDto> createMovieResDto(int num){
         List<MovieListResDto> movieListResDtoList = new ArrayList<>();
         for(int i =0 ;i<num; i++){
             MovieListResDto testMovie = new MovieListResDto().builder()
@@ -64,4 +74,24 @@ public class TestUtils {
         }
         return movieListResDtoList;
     }
+
+    public User addMockUser(){
+        return userRepository.save(
+                new User("TEST_userEmail","TEST_userName","test!!123")
+        );
+    }
+
+    public void addMockLike(Long userId, Long movieId){
+        User user =userRepository.findById(userId).orElseThrow(
+                ()-> new CustomException(ErrorCode.USER_NOT_EXIST)
+        );
+        Movie movie =movieRepository.findById(movieId).orElseThrow(
+                ()-> new CustomException(ErrorCode.MOVIE_NOT_EXIST)
+        );
+
+        Like like = new Like(user,movie);
+        likeRepository.save(like);
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.example.movieworld.movie.dto.MovieDetailResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import com.example.movieworld.user.domain.UserDetailsImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/movie")
+@RequiredArgsConstructor
 public class MovieController {
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
 
     @GetMapping("")
-    public ResponseEntity<Page<MovieListResDto>> getMovieList(@RequestParam int pageNum,
+    public ResponseEntity<Page<MovieListResDto>> getMovieList(@RequestParam(defaultValue = "0") int pageNum,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return new ResponseEntity<>(movieService.getMovieList(pageNum),HttpStatus.OK);
     }
@@ -30,7 +31,7 @@ public class MovieController {
     }
 
     @GetMapping("/genre/{genreId}")
-    public ResponseEntity<Page<MovieListResDto>> getMovieListByGenre(@RequestParam int pageNum,
+    public ResponseEntity<Page<MovieListResDto>> getMovieListByGenre(@RequestParam(defaultValue = "0") int pageNum,
                                                                      @PathVariable Long genreId,
                                                                      @AuthenticationPrincipal UserDetailsImpl userDetails){
         return new ResponseEntity<>(movieService.getMovieListByGenre(genreId,pageNum),HttpStatus.OK);

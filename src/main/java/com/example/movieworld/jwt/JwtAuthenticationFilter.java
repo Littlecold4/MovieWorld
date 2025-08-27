@@ -38,11 +38,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     };
 
     @Override
-    protected void doFilterInternal(
+    public void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@!");
 
         String requestURI = request.getRequestURI(); // 현재 요청 URI 가져오기
 

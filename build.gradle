@@ -53,7 +53,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-// QueryDsl 빌드 옵션 (선택)
+// QueryDsl 빌드 옵션
 def querydslDir = "$buildDir/generated/querydsl"
 
 sourceSets {

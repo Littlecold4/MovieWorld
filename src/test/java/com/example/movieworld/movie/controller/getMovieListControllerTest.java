@@ -1,5 +1,6 @@
 package com.example.movieworld.movie.controller;
 
+import com.example.movieworld.jwt.JwtAuthenticationFilter;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import com.example.movieworld.security.WithMockCustomUser;
@@ -11,12 +12,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 
 @WebMvcTest(MovieController.class)
 public class getMovieListControllerTest {
@@ -24,8 +28,10 @@ public class getMovieListControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @MockitoBean
     private MovieService movieService;
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     Page<MovieListResDto> expectedResult;
 
@@ -41,6 +47,7 @@ public class getMovieListControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/movie")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("pageNum","0"))
+                .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(200));
     }
 }

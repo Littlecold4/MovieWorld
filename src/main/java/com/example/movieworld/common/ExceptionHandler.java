@@ -13,6 +13,7 @@ import javax.swing.text.html.parser.Entity;
 public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(CustomException.class)
     protected ResponseEntity<String> handleCustomException(CustomException ex){
+        log.warn("CustomException 발생: message={}, expectedStatus={}", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

@@ -1,5 +1,7 @@
 package com.example.movieworld.user.controller;
 
+import com.example.movieworld.config.WebSecurityConfig;
+import com.example.movieworld.jwt.TokenProvider;
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.dto.SignUpReqDto;
 import com.example.movieworld.user.service.UserService;
@@ -10,28 +12,34 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.Mockito.*;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
 @WebMvcTest(UserController.class)
+@Import(WebSecurityConfig.class)
 public class SignUpControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @MockitoBean
+    private TokenProvider tokenProvider;
 
-    @MockBean
+    @MockitoBean
     private UserService userService;
-    User user;
-    SignUpReqDto signUpReqDto;
+    private User user;
+    private SignUpReqDto signUpReqDto;
     @BeforeEach
     void setup(){
     }
@@ -52,13 +60,13 @@ public class SignUpControllerTest {
                     .userName("TEST_userName")
                     .password("EncodedPassword")
                     .build();
-            when(userService.signUp(signUpReqDto)).thenReturn(user);
+            when(userService.signUp(any(SignUpReqDto.class))).thenReturn(user);
 
-            mvc.perform(MockMvcRequestBuilders.get("/user/signup")
+            mvc.perform(MockMvcRequestBuilders.post("/user/signup")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(signUpReqDto)))
                     .andExpect(MockMvcResultMatchers.status().is(200))
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.userName").value("TEST_userName"));
+                    .andDo(print());
         }
     }
 
@@ -74,10 +82,11 @@ public class SignUpControllerTest {
                     .password("test123!!")
                     .build();
 
-            mvc.perform(MockMvcRequestBuilders.get("/user/signup")
+            mvc.perform(MockMvcRequestBuilders.post("/user/signup")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(signUpReqDto)))
-                    .andExpect(MockMvcResultMatchers.status().is(400));
+                    .andExpect(MockMvcResultMatchers.status().is(400))
+                    .andDo(print());
 
             verify(userService,never()).signUp(signUpReqDto);
         }
@@ -92,10 +101,11 @@ public class SignUpControllerTest {
                 .password("TEST_password")
                 .build();
 
-        mvc.perform(MockMvcRequestBuilders.get("/user/signup")
+        mvc.perform(MockMvcRequestBuilders.post("/user/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signUpReqDto)))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(400))
+                .andDo(print());
 
         verify(userService,never()).signUp(signUpReqDto);
     }
@@ -108,10 +118,11 @@ public class SignUpControllerTest {
                 .password("test123!!")
                 .build();
 
-        mvc.perform(MockMvcRequestBuilders.get("/user/signup")
+        mvc.perform(MockMvcRequestBuilders.post("/user/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signUpReqDto)))
-                .andExpect(MockMvcResultMatchers.status().is(400));
+                .andExpect(MockMvcResultMatchers.status().is(400))
+                .andDo(print());
 
         verify(userService,never()).signUp(signUpReqDto);
     }

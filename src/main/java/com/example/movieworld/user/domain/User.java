@@ -1,6 +1,6 @@
 package com.example.movieworld.user.domain;
 
-import com.example.movieworld.Like;
+import com.example.movieworld.like.domain.Like;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +42,19 @@ public class User {
         this.userEmail = userEmail;
         this.userName = userName;
         this.password = password;
+    }
+
+    @Builder
+    public User(Long id, String userEmail, String userName, String password) {
+        this.id = id;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public User(Long id, String userName) {
+        this.id = id;
+        this.userName = userName;
     }
 
     public void setId(Long id) {

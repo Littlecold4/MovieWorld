@@ -18,9 +18,9 @@ spring:
             dialect: org.hibernate.dialect.H2Dialect
             format_sql: true
         show-sql: true
-        #    properties:
-        #      hibernate.format_sql: true
-        #      hibernate.dialect: org.hibernate.dialect.H2Dialect
+#            properties:
+#              hibernate.format_sql: true
+#              hibernate.dialect: org.hibernate.dialect.H2Dialect
         defer-datasource-initialization: false
 
     servlet:
@@ -33,8 +33,8 @@ spring:
     sql:
         init:
             mode: always
-            data-locations: classpath:data.sql
-            schema-locations: classpath:schema.sql
+#            data-locations: classpath:data.sql
+#            schema-locations: classpath:schema.sql
             encoding: UTF-8
 
 
