@@ -1,6 +1,5 @@
 package com.example.movieworld.movie.service;
 
-import com.example.movieworld.TestUtils;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.movie.dto.MovieListResDto;
@@ -13,9 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +33,7 @@ public class getMovieListServiceTest {
     private MovieService movieService;
 
     private Pageable pageable;
-    Page<MovieListResDto> expectedResult =null;
+    Page<MovieListResDto> expectedResult;
 
     @BeforeEach
     void setup(){
@@ -45,7 +41,6 @@ public class getMovieListServiceTest {
 
     @Nested
     @DisplayName("Service _ Movie 리스트 조회 _ 성공")
-
     public class Success{
         @Test
         @DisplayName("성공")
@@ -117,8 +112,8 @@ public class getMovieListServiceTest {
         List<MovieListResDto> movieListResDtoList = new ArrayList<>();
         for(int i =0 ;i<num; i++){
             MovieListResDto testMovie = new MovieListResDto().builder()
-                    .movieId((long)num)
-                    .title("TEST_title_"+num)
+                    .movieId((long)i)
+                    .title("TEST_title_"+i)
                     .build();
 
             movieListResDtoList.add(testMovie);

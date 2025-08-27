@@ -5,10 +5,12 @@ import com.example.movieworld.common.ErrorCode;
 import com.example.movieworld.like.domain.Like;
 import com.example.movieworld.like.repository.LikeRepository;
 import com.example.movieworld.movie.domain.Movie;
+import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.repository.MovieRepository;
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,5 +46,9 @@ public class LikeService {
                 ()-> new CustomException(ErrorCode.MOVIE_ALREADY_UNLIKED)
         );
         likeRepository.delete(like);
+    }
+
+    public Page<MovieListResDto> getLikedMovieList(int pageNum, Long userId){
+        return null;
     }
 }
