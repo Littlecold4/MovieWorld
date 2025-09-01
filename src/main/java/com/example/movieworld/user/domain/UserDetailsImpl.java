@@ -17,18 +17,37 @@ public class UserDetailsImpl implements UserDetails {
     public User getUser() {return user;}
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
-    }
-
-    @Override
     public String getPassword() {
         return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUserName();
+        return user.getUserEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return
+                Collections.singletonList(
+                        new SimpleGrantedAuthority(user.getUserRole().getCode()));
+
     }
 
 }

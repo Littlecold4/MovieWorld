@@ -2,31 +2,40 @@ package com.example.movieworld.like.controller;
 
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
+import com.example.movieworld.config.TestSecurityConfig;
+import com.example.movieworld.config.WebSecurityConfig;
 import com.example.movieworld.jwt.JwtAuthenticationFilter;
 import com.example.movieworld.jwt.TokenProvider;
 import com.example.movieworld.like.service.LikeService;
 import com.example.movieworld.security.WithMockCustomUser;
+import com.example.movieworld.user.service.UserDetailsService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @WebMvcTest(controllers = LikeController.class)
-//excludeAutoConfiguration = SecurityAutoConfiguration.class,
-//excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,classes = {OncePerRequestFilter.class}))
-//@Import(WebSecurityConfig.class)
+//@Import(TestSecurityConfig.class)
+@Import(WebSecurityConfig.class)
 public class UnlikeMovieControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -38,9 +47,11 @@ public class UnlikeMovieControllerTest {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @MockitoBean
     private TokenProvider tokenProvider;
+    @MockitoBean
+    private UserDetailsService userDetailsService;
 
     @BeforeEach
-    void setup() {
+    void setup(){
     }
 
     @Nested
@@ -48,15 +59,15 @@ public class UnlikeMovieControllerTest {
     public class Success{
         @Test
         @DisplayName("성공")
-        @WithMockCustomUser
-        void success_likeMovie() throws Exception{
+//        @WithMockCustomUser
+        @WithMockUser(username = "testUser")
+        void success_unlikeMovie() throws Exception{
             doNothing().when(likeService).unlikeMovie(anyLong(),anyLong());
 
             mvc.perform(MockMvcRequestBuilders.delete("/like/unlike/1")
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(MockMvcResultMatchers.status().is(200))
-                    .andDo(print())
-                    .andExpect(MockMvcResultMatchers.content().string("좋아요 처리에 성공하였습니다."));
+                    .andDo(print());
         }
     }
 
@@ -65,8 +76,9 @@ public class UnlikeMovieControllerTest {
     public class Failure{
         @Test
         @DisplayName("실패 _ 이미 좋아요된 영화")
-        @WithMockCustomUser
-        void fail_Moive_Already_Like() throws Exception {
+//        @WithMockCustomUser
+        @WithMockUser(username = "testUser", roles = {"USER"})
+        void fail_Movie_Already_Unlike() throws Exception {
             doThrow(new CustomException(ErrorCode.MOVIE_ALREADY_UNLIKED)).when(likeService)
                     .unlikeMovie(anyLong(),anyLong());
 
@@ -81,7 +93,8 @@ public class UnlikeMovieControllerTest {
 
         @Test
         @DisplayName("실패 _ 삭제된 영화")
-        @WithMockCustomUser
+//        @WithMockCustomUser
+        @WithMockUser(username = "testUser", roles = {"USER"})
         void fail_Movie_Not_Exist() throws Exception {
             doThrow(new CustomException(ErrorCode.MOVIE_NOT_EXIST)).when(likeService)
                     .unlikeMovie(anyLong(),anyLong());

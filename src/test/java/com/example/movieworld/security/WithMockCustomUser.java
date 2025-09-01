@@ -1,5 +1,6 @@
 package com.example.movieworld.security;
 
+import com.example.movieworld.user.domain.UserRole;
 import org.springframework.security.test.context.support.WithSecurityContext;
 
 import java.lang.annotation.Retention;
@@ -11,4 +12,6 @@ public @interface WithMockCustomUser {
 //    long userId() default 1L;
     String userEmail() default "test@test.com";
     String userName() default "TEST_userName";
+
+    UserRole userRole() default UserRole.ROLE_USER;
 }

@@ -110,11 +110,7 @@ public class TokenProvider {
     public String generateJwtToken(String userEmail) {
         String token = null;
 
-//        token = JWT.create()
-//                .withIssuer(ISSUER)
-//                .withPayload(createClaims(userEmail))
-//                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALID_MILLI_SEC))
-//                .sign(generateAlgorithm(JWT_SECRET));
+
         token =JWT.create()
                 .withSubject(userEmail)
                 .withIssuedAt(new Date()) // 토큰 발급 시간

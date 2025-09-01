@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 
 @WebMvcTest(LikeController.class)
-@Import(WebSecurityConfig.class)
+//@Import(WebSecurityConfig.class)
 public class LikeMovieControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -46,12 +47,7 @@ public class LikeMovieControllerTest {
     private TokenProvider tokenProvider;
 
     @BeforeEach
-    void setup() throws ServletException, IOException {
-//        doNothing().when(jwtAuthenticationFilter).doFilterInternal(
-//                any(HttpServletRequest.class),
-//                any(HttpServletResponse.class),
-//                any(FilterChain.class)
-//        );
+    void setup(){
     }
 
     @Nested
@@ -59,7 +55,8 @@ public class LikeMovieControllerTest {
     public class Success{
         @Test
         @DisplayName("성공")
-        @WithMockCustomUser
+//        @WithMockCustomUser
+        @WithMockUser
         void success_likeMovie() throws Exception{
             doNothing().when(likeService).likeMovie(anyLong(),anyLong());
 

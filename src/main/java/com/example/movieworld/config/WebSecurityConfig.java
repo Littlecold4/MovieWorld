@@ -2,10 +2,15 @@ package com.example.movieworld.config;
 
 import com.example.movieworld.jwt.JwtAuthenticationFilter; // 이 import는 그대로
 import com.example.movieworld.jwt.TokenProvider;
+import com.example.movieworld.user.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,18 +28,25 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
-    @Autowired
-    private  TokenProvider tokenProvider;
-    @Autowired
-    private  JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final TokenProvider tokenProvider;
+    private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    public WebSecurityConfig(TokenProvider tokenProvider,
+                             UserDetailsService userDetailsService,
+                             JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
-
-//    public WebSecurityConfig(TokenProvider tokenProvider, JwtAuthenticationFilter jwtAuthenticationFilter) {
-//        this.tokenProvider = tokenProvider;
-//        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
 //    }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -63,6 +75,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/get/genre").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/user/signup").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/user/login").permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/like/unlike/**").hasRole("USER")
 //                                .requestMatchers(HttpMethod.DELETE,"/like/unlike/1").permitAll()
                                 .anyRequest().authenticated()
                 );

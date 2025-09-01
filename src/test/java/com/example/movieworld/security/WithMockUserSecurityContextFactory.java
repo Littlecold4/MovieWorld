@@ -2,6 +2,7 @@ package com.example.movieworld.security;
 
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.domain.UserDetailsImpl;
+import com.example.movieworld.user.domain.UserRole;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,15 +18,17 @@ public class WithMockUserSecurityContextFactory implements WithSecurityContextFa
 
         String userEmail = annotation.userEmail();
         String userName = annotation.userName();
+        UserRole userRole = annotation.userRole();
 
         User user = User.builder()
                 .userName(userName)
                 .userEmail(userEmail)
+                .userRole(userRole)
                 .build();
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
 
         final UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(userDetails, "password", Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+                = new UsernamePasswordAuthenticationToken(userDetails, "password",  Collections.singletonList(new SimpleGrantedAuthority(userRole.name())));
         securityContext.setAuthentication(authenticationToken);
         return securityContext;
     }

@@ -37,7 +37,18 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "USER_ROLE")
+    private UserRole userRole = UserRole.ROLE_USER;
+
     @Builder
+    public User(String userEmail, String userName, String password,UserRole userRole) {
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
     public User(String userEmail, String userName, String password) {
         this.userEmail = userEmail;
         this.userName = userName;

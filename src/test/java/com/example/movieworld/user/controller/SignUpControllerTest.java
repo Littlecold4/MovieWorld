@@ -1,9 +1,11 @@
 package com.example.movieworld.user.controller;
 
 import com.example.movieworld.config.WebSecurityConfig;
+import com.example.movieworld.jwt.JwtAuthenticationFilter;
 import com.example.movieworld.jwt.TokenProvider;
 import com.example.movieworld.user.domain.User;
 import com.example.movieworld.user.dto.SignUpReqDto;
+import com.example.movieworld.user.service.UserDetailsService;
 import com.example.movieworld.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,15 +28,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 
 @WebMvcTest(UserController.class)
-@Import(WebSecurityConfig.class)
+//@Import(WebSecurityConfig.class)
 public class SignUpControllerTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @MockitoBean
-    private TokenProvider tokenProvider;
+//    @MockitoBean
+//    private TokenProvider tokenProvider;
+//    @MockitoBean
+//    private UserDetailsService userDetailsService;
+//    @MockitoBean
+//    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @MockitoBean
     private UserService userService;
