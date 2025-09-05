@@ -57,7 +57,10 @@ public class getMovieListBySearchRepositoryTest {
             assertEquals(24,result_keyword1.getTotalElements()); //7+8+9
             assertEquals(12,result_keyword2.getTotalElements()); // 1,10~19,21
 
-            assertEquals(4,result_keyword1.getSize());
+            assertEquals(4,result_keyword1.getContent().size());
+            assertEquals(10,result_keyword2.getContent().size());
+
+            assertEquals(10,result_keyword1.getSize());
             assertEquals(10,result_keyword2.getSize());
 
             assertEquals("TEST_title_21",result_keyword1.getContent().get(0).getTitle());

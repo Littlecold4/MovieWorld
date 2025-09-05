@@ -107,7 +107,39 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
 
     @Override
     public Page<MovieListResDto> getMovieListBySearch(String keyword, int pageNum) {
-        return null;
+        Pageable pageable = PageRequest.of(pageNum,10);
+        QueryResults<MovieListResDto> results = queryFactory
+                .select(Projections.constructor(
+                        MovieListResDto.class,
+                        movie.movieId,
+                        movie.title,
+                        movie.overview,
+                        movie.adult,
+                        movie.releaseDate,
+                        movie.posterPath,
+                        movie.likes.size()
+                )).from(movie)
+                .where(movie.title.contains(keyword))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MovieListResDto> movieList = results.getResults();
+
+        for(int i = 0; i<movieList.size(); i++) {
+            List<GenreResDto> genres = queryFactory
+                    .select(Projections.constructor(
+                            GenreResDto.class,
+                            movieGenre.genre.genreId,
+                            movieGenre.genre.genreName
+                    )).from(movieGenre)
+                    .where(movieGenre.movie.title.contains(keyword))
+                    .from(movieGenre)
+                    .fetch();
+
+            movieList.get(i).setGenres(genres);
+        }
+        return new PageImpl<>(movieList,pageable,results.getTotal());
     }
 
     @Override
