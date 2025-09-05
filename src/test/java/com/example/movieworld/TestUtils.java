@@ -31,7 +31,8 @@ public class TestUtils {
 
     public List<Movie> addMockMovie(int num,List<Long> genreIdList){
         List<Movie> mockMovieList = new ArrayList<>();
-        for(int i=0; i<num;i++){
+        int movieCnt = (int)movieRepository.count();
+        for(int i=movieCnt+1; i<num;i++){
             Movie movie = new Movie().builder()
                     .title("TEST_title_"+i)
                     .overview("TEST_overview_"+i)

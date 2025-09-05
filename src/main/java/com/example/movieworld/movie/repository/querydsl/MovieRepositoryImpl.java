@@ -106,6 +106,11 @@ public class MovieRepositoryImpl implements MovieRepositoryQuerydsl{
     }
 
     @Override
+    public Page<MovieListResDto> getMovieListBySearch(String keyword, int pageNum) {
+        return null;
+    }
+
+    @Override
     public MovieDetailResDto getMovieDetail(Long movieId,Long userId) {
         MovieDetailResDto movieDetailResDto =queryFactory.
                 select(Projections.constructor(
