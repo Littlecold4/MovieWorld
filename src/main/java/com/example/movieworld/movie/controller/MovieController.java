@@ -1,6 +1,7 @@
 package com.example.movieworld.movie.controller;
 
 import com.example.movieworld.movie.dto.MovieDetailResDto;
+import com.example.movieworld.movie.dto.MovieListBySearchResDto;
 import com.example.movieworld.movie.dto.MovieListResDto;
 import com.example.movieworld.movie.service.MovieService;
 import com.example.movieworld.user.domain.UserDetailsImpl;
