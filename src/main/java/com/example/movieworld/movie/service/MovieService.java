@@ -1,5 +1,6 @@
 package com.example.movieworld.movie.service;
 
+import com.example.movieworld.movie.dto.MovieListBySearchResDto;
 import com.example.movieworld.user.repository.UserRepository;
 import com.example.movieworld.common.CustomException;
 import com.example.movieworld.common.ErrorCode;
@@ -43,5 +44,9 @@ public class MovieService {
         long totalMovies = movieRepository.count();
         if(pageNum > totalMovies/10) pageNum = (int) totalMovies/10;
         return movieRepository.getMovieListByGenre(genreId,pageNum);
+    }
+
+    public MovieListBySearchResDto getMovieListBySearch(String keyword,int pageNum){
+        return null;
     }
 }
