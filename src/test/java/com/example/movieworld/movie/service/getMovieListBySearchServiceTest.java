@@ -86,7 +86,7 @@ public class getMovieListBySearchServiceTest {
 
 
             when(movieRepository.count()).thenReturn(totalMovies);
-            when(movieRepository.getMovieListBySearch(anyString(),lastPageNum)).thenReturn(expectedList);
+            when(movieRepository.getMovieListBySearch(keyword,lastPageNum)).thenReturn(expectedList);
 
             //when
             MovieListBySearchResDto actualResult = movieService.getMovieListBySearch(keyword,exceedPageNum);
@@ -96,7 +96,7 @@ public class getMovieListBySearchServiceTest {
             assertEquals(expectedList,actualResult.getMovieListResDto());
             assertEquals(expectedResult.getKeyword(),actualResult.getKeyword());
 
-            verify(movieRepository,times(1)).getMovieListBySearch(keyword,0);
+            verify(movieRepository,times(1)).getMovieListBySearch(keyword,lastPageNum);
         }
     }
     @Nested

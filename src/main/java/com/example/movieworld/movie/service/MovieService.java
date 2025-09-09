@@ -47,6 +47,11 @@ public class MovieService {
     }
 
     public MovieListBySearchResDto getMovieListBySearch(String keyword,int pageNum){
-        return null;
+        if(pageNum<0) throw new CustomException(ErrorCode.INVALID_PAGE_NUMBER);
+        long totalMovies = movieRepository.count();
+        if(pageNum > totalMovies/10) pageNum = (int) totalMovies/10;
+        Page<MovieListResDto> movieListBySearch = movieRepository.getMovieListBySearch(keyword,pageNum);
+
+        return new MovieListBySearchResDto(movieListBySearch,keyword);
     }
 }
